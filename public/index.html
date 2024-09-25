@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Skippy</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+
+    <body>
+        <canvas
+            id="canvas"
+            oncontextmenu="event.preventDefault()"
+            tabindex="-1"
+        />
+        <script type="text/javascript">
+            var Module = {
+                canvas: (() => {
+                    var canvas = document.getElementById("canvas");
+                    return canvas;
+                })(),
+            };
+        </script>
+        <script src="index.js"></script>
+    </body>
+</html>
