@@ -1,18 +1,16 @@
+#include <SDL/SDL.h>
 #include <SDL/SDL_timer.h>
 #include <stdio.h>
-#include <SDL/SDL.h>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
-void main_loop() {
-
-}
+void main_loop() {}
 
 int main(int argc, char** argv) {
-    (void) argc;
-    (void) argv;
+    (void)argc;
+    (void)argv;
 
     // Initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -27,14 +25,14 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    #ifdef __EMSCRIPTEN__
+#ifdef __EMSCRIPTEN__
     emscripten_set_main_loop(main_loop, 0, 1);
-    #else
-    while(1) {
+#else
+    while (1) {
         main_loop();
         SDL_Delay(16);
     }
-    #endif
+#endif
 
     SDL_Quit();
 

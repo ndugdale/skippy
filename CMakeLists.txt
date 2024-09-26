@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.5)
 set(PROJECT_NAME skippy)
 set(PROJECT_VERSION 1.0.0)
 
-set(CMAKE_C_STANDARD 23)
+set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
 
