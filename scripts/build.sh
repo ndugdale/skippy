@@ -27,9 +27,9 @@ mkdir -p dist
 cd build
 
 if [ "$BUILD_TYPE" == "debug" ]; then
-    emcmake cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXE_LINKER_FLAGS="--emrun" ..
+    emcmake cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXE_LINKER_FLAGS="--emrun --preload-file ../assets --use-preload-plugins" ..
 else
-    emcmake cmake -DCMAKE_BUILD_TYPE=Release ..
+    emcmake cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXE_LINKER_FLAGS="--preload-file ../assets --use-preload-plugins" ..
 fi
 
 cmake --build .

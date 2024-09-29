@@ -5,7 +5,7 @@ set(PROJECT_VERSION 1.0.0)
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra --use-port=sdl2 --use-port=sdl2_image:formats=png")
 
 set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(PUBLIC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/public")
@@ -39,4 +39,3 @@ add_custom_command(
 )
 
 message(STATUS "C Compiler: ${CMAKE_C_COMPILER_ID} ${CMAKE_C_COMPILER_VERSION} ${CMAKE_C_COMPILER}")
-

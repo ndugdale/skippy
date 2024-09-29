@@ -1,29 +1,24 @@
-#include <SDL/SDL.h>
-#include <SDL/SDL_timer.h>
-#include <stdio.h>
+#include "application.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_log.h>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
 #endif
 
-void main_loop() {}
+Application application;
+
+void main_loop(void) {
+    application_handle_input(&application);
+    application_update(&application);
+    application_render(&application);
+}
 
 int main(int argc, char** argv) {
     (void)argc;
     (void)argv;
 
-    // Initialize SDL
-    if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        fprintf(stderr, "Could not initialize SDL: %s\n", SDL_GetError());
-        return 1;
-    }
-
-    SDL_Surface* screen = SDL_SetVideoMode(256, 256, 32, SDL_SWSURFACE);
-    if (!screen) {
-        fprintf(stderr, "Could not set video mode: %s\n", SDL_GetError());
-        SDL_Quit();
-        return 1;
-    }
+    application_init(&application);
 
 #ifdef __EMSCRIPTEN__
     emscripten_set_main_loop(main_loop, 0, 1);
@@ -34,7 +29,7 @@ int main(int argc, char** argv) {
     }
 #endif
 
-    SDL_Quit();
+    application_cleanup(&application);
 
     return 0;
 }
