@@ -4,8 +4,8 @@
 
 void player_init(Player* player, SDL_Renderer* renderer) {
     player->texture = IMG_LoadTexture(renderer, "assets/sprites/player.png");
-    player->x = 100;
-    player->y = 100;
+    player->x = 32;
+    player->y = 32;
     player->width = 32;
     player->height = 32;
 
