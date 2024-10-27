@@ -2,11 +2,13 @@
 
 #include <SDL2/SDL.h>
 #include <stdint.h>
+#include "clock.h"
 #include "player.h"
 
 typedef struct {
     SDL_Window* window;
     SDL_Renderer* renderer;
+    Clock clock;
     Player player;
     SDL_Color background;
     uint16_t score;

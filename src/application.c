@@ -1,4 +1,5 @@
 #include "application.h"
+#include "clock.h"
 #include "player.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -54,7 +55,8 @@ void application_init(Application* application) {
         // TODO: error
     }
 
-    player_init(&application->player, application->renderer);
+    application->clock = clock_create();
+    application->player = player_create(application->renderer);
     application->background = (SDL_Color){253, 253, 150, 255};
 }
 
@@ -84,12 +86,13 @@ void application_handle_input(Application* application) {
         default:
             break;
         }
+        player_handle_input(&application->player, event);
     }
-    player_handle_input(&application->player);
 }
 
 void application_update(Application* application) {
-    player_update(&application->player);
+    float delta_time = clock_tick(&application->clock);
+    player_update(&application->player, delta_time);
 }
 
 void application_render(Application* application) {
