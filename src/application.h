@@ -4,12 +4,14 @@
 #include <stdint.h>
 #include "clock.h"
 #include "player.h"
+#include "turners.h"
 
 typedef struct {
     SDL_Window* window;
     SDL_Renderer* renderer;
     Clock clock;
     Player player;
+    Turners turners;
     SDL_Color background;
     uint16_t score;
     uint16_t hiscore;

@@ -3,7 +3,7 @@
 #include <stdint.h>
 
 typedef struct {
-    uint64_t elapsed_count;
+    uint64_t elapsed_ticks;
     float delta_time;
 } Clock;
 

@@ -4,7 +4,7 @@
 
 Clock clock_create() {
     Clock clock = {
-        .elapsed_count = 0,
+        .elapsed_ticks = 0,
         .delta_time = 0.0f,
     };
 
@@ -14,8 +14,8 @@ Clock clock_create() {
 float clock_tick(Clock* clock) {
     uint64_t elapsed = SDL_GetPerformanceCounter();
     clock->delta_time =
-        (float)(elapsed - clock->elapsed_count) / SDL_GetPerformanceFrequency();
-    clock->elapsed_count = elapsed;
+        (float)(elapsed - clock->elapsed_ticks) / SDL_GetPerformanceFrequency();
+    clock->elapsed_ticks = elapsed;
 
     return clock->delta_time;
 }

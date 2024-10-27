@@ -17,6 +17,6 @@ typedef struct {
 
 Player player_create(SDL_Renderer* renderer);
 void player_handle_input(Player* player, SDL_Event event);
-void player_update(Player* player, double delta_time);
+void player_update(Player* player, float delta_time);
 void player_render(Player* player, SDL_Renderer* renderer);
 void player_cleanup(Player* player);

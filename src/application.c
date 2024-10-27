@@ -1,6 +1,7 @@
 #include "application.h"
 #include "clock.h"
 #include "player.h"
+#include "turners.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <stddef.h>
@@ -57,6 +58,7 @@ void application_init(Application* application) {
 
     application->clock = clock_create();
     application->player = player_create(application->renderer);
+    application->turners = turners_create(application->renderer);
     application->background = (SDL_Color){253, 253, 150, 255};
 }
 
@@ -93,6 +95,7 @@ void application_handle_input(Application* application) {
 void application_update(Application* application) {
     float delta_time = clock_tick(&application->clock);
     player_update(&application->player, delta_time);
+    turners_update(&application->turners, delta_time);
 }
 
 void application_render(Application* application) {
@@ -103,10 +106,13 @@ void application_render(Application* application) {
     );
     SDL_RenderClear(application->renderer);
     player_render(&application->player, application->renderer);
+    turners_render(&application->turners, application->renderer);
     SDL_RenderPresent(application->renderer);
 }
 
 void application_cleanup(Application* application) {
+    player_cleanup(&application->player);
+    turners_cleanup(&application->turners);
     SDL_DestroyRenderer(application->renderer);
     SDL_DestroyWindow(application->window);
     SDL_Quit();

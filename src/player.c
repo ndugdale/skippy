@@ -1,13 +1,11 @@
 #include "player.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <SDL2/SDL_keycode.h>
-#include <stdint.h>
 
 Player player_create(SDL_Renderer* renderer) {
     Player player = {
         .texture = IMG_LoadTexture(renderer, "assets/sprites/player.png"),
-        .x_0 = 32,
+        .x_0 = 64,
         .y_0 = 32,
         .width = 32,
         .height = 32,
@@ -41,7 +39,7 @@ void player_handle_input(Player* player, SDL_Event event) {
     }
 }
 
-void player_update(Player* player, double delta_time) {
+void player_update(Player* player, float delta_time) {
     // Apply velocity and acceleration
     player->y += player->v_y * delta_time;
     player->v_y += player->a_gravity * delta_time;
