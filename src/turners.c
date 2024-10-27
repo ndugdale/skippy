@@ -46,3 +46,9 @@ void turners_render(Turners* turners, SDL_Renderer* renderer) {
 }
 
 void turners_cleanup(Turners* turners) { SDL_DestroyTexture(turners->texture); }
+
+uint16_t turners_get_z_index(Turners* turners) {
+    return (turners->frame >= 0 && turners->frame < turners->frame_count / 2)
+               ? 0
+               : 1;
+}

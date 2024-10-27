@@ -19,3 +19,4 @@ Turners turners_create(SDL_Renderer* renderer);
 void turners_update(Turners* turners, float delta_time);
 void turners_render(Turners* turners, SDL_Renderer* renderer);
 void turners_cleanup(Turners* turners);
+uint16_t turners_get_z_index(Turners* turners);

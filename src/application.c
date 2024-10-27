@@ -59,7 +59,7 @@ void application_init(Application* application) {
     application->clock = clock_create();
     application->player = player_create(application->renderer);
     application->turners = turners_create(application->renderer);
-    application->background = (SDL_Color){253, 253, 150, 255};
+    application->background = (SDL_Color){195, 193, 240, 255};
 }
 
 void application_handle_input(Application* application) {
@@ -105,8 +105,15 @@ void application_render(Application* application) {
         application->background.a
     );
     SDL_RenderClear(application->renderer);
-    player_render(&application->player, application->renderer);
-    turners_render(&application->turners, application->renderer);
+
+    if (turners_get_z_index(&application->turners) > 0) {
+        player_render(&application->player, application->renderer);
+        turners_render(&application->turners, application->renderer);
+    } else {
+        turners_render(&application->turners, application->renderer);
+        player_render(&application->player, application->renderer);
+    }
+
     SDL_RenderPresent(application->renderer);
 }
 
