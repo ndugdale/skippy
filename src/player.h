@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 typedef struct {
@@ -13,6 +14,7 @@ typedef struct {
     float v_y;
     float v_jump; // pixels/s
     float a_gravity; // pixels/s^2
+    bool frozen;
 } Player;
 
 Player player_create(SDL_Renderer* renderer);

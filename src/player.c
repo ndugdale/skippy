@@ -13,6 +13,7 @@ Player player_create(SDL_Renderer* renderer) {
         .v_y = 0.0f,
         .v_jump = -40.0f,
         .a_gravity = 240.0f,
+        .frozen = true,
     };
 
     if (player.texture == NULL) {
@@ -23,6 +24,10 @@ Player player_create(SDL_Renderer* renderer) {
 }
 
 void player_handle_input(Player* player, SDL_Event event) {
+    if (player->frozen) {
+        return;
+    }
+
     switch (event.type) {
     case SDL_KEYDOWN:
         switch (event.key.keysym.sym) {
@@ -40,6 +45,10 @@ void player_handle_input(Player* player, SDL_Event event) {
 }
 
 void player_update(Player* player, float delta_time) {
+    if (player->frozen) {
+        return;
+    }
+
     // Apply velocity and acceleration
     player->y += player->v_y * delta_time;
     player->v_y += player->a_gravity * delta_time;

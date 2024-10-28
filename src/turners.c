@@ -1,6 +1,7 @@
 #include "turners.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 Turners turners_create(SDL_Renderer* renderer) {
@@ -14,6 +15,7 @@ Turners turners_create(SDL_Renderer* renderer) {
         .y_0 = 32,
         .width = 96,
         .height = 32,
+        .frozen = true,
     };
 
     if (turners.texture == NULL) {
@@ -24,6 +26,10 @@ Turners turners_create(SDL_Renderer* renderer) {
 }
 
 void turners_update(Turners* turners, float delta_time) {
+    if (turners->frozen) {
+        return;
+    }
+
     // Animate turners
     uint64_t elapsed = SDL_GetPerformanceCounter();
     float frame_delta_time = (float)(elapsed - turners->last_frame_ticks) /

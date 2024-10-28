@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 typedef struct {
@@ -13,6 +14,7 @@ typedef struct {
     uint16_t y_0;
     uint16_t width;
     uint16_t height;
+    bool frozen;
 } Turners;
 
 Turners turners_create(SDL_Renderer* renderer);

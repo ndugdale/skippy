@@ -4,6 +4,7 @@
 #include "turners.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <stdbool.h>
 #include <stddef.h>
 
 #ifdef __EMSCRIPTEN__
@@ -60,6 +61,7 @@ void application_init(Application* application) {
     application->player = player_create(application->renderer);
     application->turners = turners_create(application->renderer);
     application->background = (SDL_Color){195, 193, 240, 255};
+    application->round_in_progress = false;
 }
 
 void application_handle_input(Application* application) {
@@ -70,6 +72,8 @@ void application_handle_input(Application* application) {
 
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
+        player_handle_input(&application->player, event);
+
         switch (event.type) {
         case SDL_QUIT:
 #ifdef __EMSCRIPTEN__
@@ -77,6 +81,17 @@ void application_handle_input(Application* application) {
 #else
             // TODO
 #endif
+            break;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+            case SDLK_SPACE:
+                application->round_in_progress = true;
+                application->player.frozen = false;
+                application->turners.frozen = false;
+                break;
+            default:
+                break;
+            }
             break;
         case SDL_WINDOWEVENT:
             if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
@@ -88,7 +103,6 @@ void application_handle_input(Application* application) {
         default:
             break;
         }
-        player_handle_input(&application->player, event);
     }
 }
 

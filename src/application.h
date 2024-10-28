@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include "clock.h"
 #include "player.h"
 #include "turners.h"
@@ -15,6 +16,7 @@ typedef struct {
     SDL_Color background;
     uint16_t score;
     uint16_t hiscore;
+    bool round_in_progress;
 } Application;
 
 void application_init(Application* application);
