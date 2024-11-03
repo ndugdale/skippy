@@ -7,6 +7,7 @@
 #include "core/texture_manager.h"
 #include "core/window.h"
 #include "event/event.h"
+#include "game/game_manager.h"
 #include "game/player.h"
 #include "game/turners.h"
 
@@ -14,10 +15,11 @@ typedef struct {
     Window window;
     Renderer renderer;
     TextureManager texture_manager;
+    GameManager game_manager;
     Clock clock;
     Player player;
     Turners turners;
-    SDL_Color background;
+    SDL_Color background;  // TODO: remove SDL api
 } Application;
 
 void application_init(Application* application);

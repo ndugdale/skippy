@@ -25,7 +25,6 @@ void application_init(Application* application) {
 
     window_init(&application->window, "Skippy");
     renderer_init(&application->renderer, &application->window);
-    texture_manager_init(&application->texture_manager, &application->renderer);
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
@@ -34,6 +33,8 @@ void application_init(Application* application) {
         "Failed to initialse SDL_image"
     );
 
+    texture_manager_init(&application->texture_manager, &application->renderer);
+    game_manager_init(&application->game_manager);
     clock_init(&application->clock);
     player_init(&application->player, &application->texture_manager);
     turners_init(&application->turners, &application->texture_manager);
@@ -90,16 +91,22 @@ void application_handle_event(Application* application, Event event) {
 #endif
             break;
         default:
-            player_handle_event(&application->player, event);
-            turners_handle_event(&application->turners, event);
+            player_handle_event(
+                &application->player, &application->game_manager, event
+            );
+            turners_handle_event(
+                &application->turners, &application->game_manager, event
+            );
             break;
     }
 }
 
 void application_update(Application* application) {
     float delta_time = clock_tick(&application->clock);
-    player_update(&application->player, delta_time);
-    turners_update(&application->turners, delta_time);
+    player_update(&application->player, &application->game_manager, delta_time);
+    turners_update(
+        &application->turners, &application->game_manager, delta_time
+    );
 }
 
 void application_render(Application* application) {

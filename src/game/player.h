@@ -6,6 +6,7 @@
 #include "core/texture.h"
 #include "core/texture_manager.h"
 #include "event/event.h"
+#include "game/game_manager.h"
 
 typedef struct {
     Texture texture;
@@ -20,7 +21,9 @@ typedef struct {
 } Player;
 
 void player_init(Player* player, TextureManager* texture_manager);
-void player_handle_event(Player* player, Event event);
-void player_update(Player* player, float delta_time);
+void player_handle_event(
+    Player* player, GameManager* game_manager, Event event
+);
+void player_update(Player* player, GameManager* game_manager, float delta_time);
 void player_render(Player* player, Renderer* renderer);
 void player_cleanup(Player* player);

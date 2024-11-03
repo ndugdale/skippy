@@ -2,6 +2,7 @@
 
 #include "core/texture_manager.h"
 #include "event/event.h"
+#include "game/game_manager.h"
 
 void player_init(Player* player, TextureManager* texture_manager) {
     player->texture = texture_manager_get_texture(texture_manager, "player");
@@ -15,7 +16,26 @@ void player_init(Player* player, TextureManager* texture_manager) {
     player->a_gravity = 240.0f;
 }
 
-void player_update(Player* player, float delta_time) {
+void player_handle_event(
+    Player* player, GameManager* game_manager, Event event
+) {
+    switch (event.type) {
+        case KEY_PRESS_EVENT:
+            if (event.key_press.keycode == KEYCODE_SPACE &&
+                game_manager->running) {
+                if (player->y >= 0.0f) {
+                    player->v_y = player->v_jump;
+                }
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void player_update(
+    Player* player, GameManager* game_manager, float delta_time
+) {
     // Apply velocity and acceleration
     player->y += player->v_y * delta_time;
     player->v_y += player->a_gravity * delta_time;
@@ -36,17 +56,3 @@ void player_render(Player* player, Renderer* renderer) {
 }
 
 void player_cleanup(Player* player) {}
-
-void player_handle_event(Player* player, Event event) {
-    switch (event.type) {
-        case KEY_PRESS_EVENT:
-            if (event.key_press.keycode == KEYCODE_SPACE) {
-                if (player->y >= 0.0f) {
-                    player->v_y = player->v_jump;
-                }
-            }
-            break;
-        default:
-            break;
-    }
-}

@@ -1,12 +1,12 @@
 #pragma once
 
-#include <stdbool.h>
 #include <stdint.h>
 
 #include "core/renderer.h"
 #include "core/texture.h"
 #include "core/texture_manager.h"
 #include "event/event.h"
+#include "game/game_manager.h"
 
 typedef struct {
     Texture texture;
@@ -18,12 +18,15 @@ typedef struct {
     uint16_t y_0;
     uint16_t width;
     uint16_t height;
-    bool frozen;
 } Turners;
 
 void turners_init(Turners* turners, TextureManager* texture_manager);
-void turners_handle_event(Turners* turners, Event event);
-void turners_update(Turners* turners, float delta_time);
+void turners_handle_event(
+    Turners* turners, GameManager* game_manager, Event event
+);
+void turners_update(
+    Turners* turners, GameManager* game_manager, float delta_time
+);
 void turners_render(Turners* turners, Renderer* renderer);
 void turners_cleanup(Turners* turners);
 uint16_t turners_get_z_index(Turners* turners);

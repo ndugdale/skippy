@@ -5,6 +5,7 @@
 #include <stdint.h>
 
 #include "event/event.h"
+#include "game/game_manager.h"
 
 void turners_init(Turners* turners, TextureManager* texture_manager) {
     turners->texture = texture_manager_get_texture(texture_manager, "turners");
@@ -16,11 +17,27 @@ void turners_init(Turners* turners, TextureManager* texture_manager) {
     turners->y_0 = 32;
     turners->width = 96;
     turners->height = 32;
-    turners->frozen = true;
 }
 
-void turners_update(Turners* turners, float delta_time) {
-    if (turners->frozen) {
+void turners_handle_event(
+    Turners* turners, GameManager* game_manager, Event event
+) {
+    switch (event.type) {
+        case KEY_PRESS_EVENT:
+            if (event.key_press.keycode == KEYCODE_SPACE &&
+                !game_manager->running) {
+                game_manager->running = true;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+void turners_update(
+    Turners* turners, GameManager* game_manager, float delta_time
+) {
+    if (!game_manager->running) {
         return;
     }
 
@@ -49,16 +66,4 @@ uint16_t turners_get_z_index(Turners* turners) {
     return (turners->frame >= 0 && turners->frame < turners->frame_count / 2)
                ? 0
                : 1;
-}
-
-void turners_handle_event(Turners* turners, Event event) {
-    switch (event.type) {
-        case KEY_PRESS_EVENT:
-            if (event.key_press.keycode == KEYCODE_SPACE) {
-                turners->frozen = false;
-            }
-            break;
-        default:
-            break;
-    }
 }
