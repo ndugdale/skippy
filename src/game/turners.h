@@ -1,12 +1,12 @@
 #pragma once
 
-#include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
 
 #include "core/renderer.h"
 #include "core/texture.h"
 #include "core/texture_manager.h"
+#include "event/event.h"
 
 typedef struct {
     Texture texture;
@@ -21,7 +21,8 @@ typedef struct {
     bool frozen;
 } Turners;
 
-Turners turners_create(TextureManager* texture_manager);
+void turners_init(Turners* turners, TextureManager* texture_manager);
+void turners_handle_event(Turners* turners, Event event);
 void turners_update(Turners* turners, float delta_time);
 void turners_render(Turners* turners, Renderer* renderer);
 void turners_cleanup(Turners* turners);

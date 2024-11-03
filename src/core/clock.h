@@ -7,5 +7,5 @@ typedef struct {
     float delta_time;
 } Clock;
 
-Clock clock_create();
+void clock_init(Clock* clock);
 float clock_tick(Clock* clock);

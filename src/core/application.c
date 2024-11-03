@@ -7,8 +7,9 @@
 
 #include "core/clock.h"
 #include "core/log.h"
-#include "player.h"
-#include "turners.h"
+#include "event/event.h"
+#include "game/player.h"
+#include "game/turners.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -16,16 +17,15 @@
 #endif
 
 #ifdef __EMSCRIPTEN__
-void _emit_window_resize_event(SDL_Window* window, SDL_Event* event);
+void application_emit_window_resize_event(Application* application);
 #endif
 
 void application_init(Application* application) {
     ASSERT(SDL_Init(SDL_INIT_VIDEO) == 0, "Failed to initialise SDL");
 
-    application->window = window_create("Skippy");
-    application->renderer = renderer_create(&application->window);
-    application->texture_manager =
-        texture_manager_create(&application->renderer);
+    window_init(&application->window, "Skippy");
+    renderer_init(&application->renderer, &application->window);
+    texture_manager_init(&application->texture_manager, &application->renderer);
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
@@ -34,57 +34,65 @@ void application_init(Application* application) {
         "Failed to initialse SDL_image"
     );
 
-    application->clock = clock_create();
-    application->player = player_create(&application->texture_manager);
-    application->turners = turners_create(&application->texture_manager);
+    clock_init(&application->clock);
+    player_init(&application->player, &application->texture_manager);
+    turners_init(&application->turners, &application->texture_manager);
     application->background = (SDL_Color){195, 193, 240, 255};
-    application->round_in_progress = false;
 }
 
-void application_handle_input(Application* application) {
+void application_dispatch_events(Application* application) {
 #ifdef __EMSCRIPTEN__
-    SDL_Event window_resize_event;
-    // TODO: create abstraction
-    _emit_window_resize_event(
-        application->window.platform_window, &window_resize_event
-    );
+    application_emit_window_resize_event(application);
 #endif
 
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        player_handle_input(&application->player, event);
+    SDL_Event platform_event;
+    while (SDL_PollEvent(&platform_event)) {
+        Event event = {.type = UNKNOWN_EVENT};
 
-        switch (event.type) {
+        switch (platform_event.type) {
+            case SDL_WINDOWEVENT:
+                if (platform_event.window.event == SDL_WINDOWEVENT_RESIZED) {
+                    event.type = WINDOW_RESIZE_EVENT;
+                    event.window_resize.width = platform_event.window.data1;
+                    event.window_resize.height = platform_event.window.data2;
+                }
+                break;
             case SDL_QUIT:
-#ifdef __EMSCRIPTEN__
-                emscripten_cancel_main_loop();
-#else
-                // TODO
-#endif
+                event.type = WINDOW_CLOSE_EVENT;
                 break;
             case SDL_KEYDOWN:
-                switch (event.key.keysym.sym) {
-                    case SDLK_SPACE:
-                        application->round_in_progress = true;
-                        application->player.frozen = false;
-                        application->turners.frozen = false;
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            case SDL_WINDOWEVENT:
-                if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
-                    // TODO: create abstraction
-                    SDL_SetWindowSize(
-                        application->window.platform_window, event.window.data1,
-                        event.window.data2
-                    );
-                }
+                event.type = KEY_PRESS_EVENT;
+                event.key_press.keycode = KEYCODE_SPACE;
                 break;
             default:
                 break;
         }
+
+        if (event.type != UNKNOWN_EVENT) {
+            application_handle_event(application, event);
+        }
+    }
+}
+
+void application_handle_event(Application* application, Event event) {
+    switch (event.type) {
+        case WINDOW_RESIZE_EVENT:
+            window_resize(
+                &application->window, event.window_resize.width,
+                event.window_resize.height
+            );
+            break;
+        case WINDOW_CLOSE_EVENT:
+#ifdef __EMSCRIPTEN__
+            emscripten_cancel_main_loop();
+#else
+            window_close(&application->window);
+#endif
+            break;
+        default:
+            player_handle_event(&application->player, event);
+            turners_handle_event(&application->turners, event);
+            break;
     }
 }
 
@@ -121,10 +129,12 @@ void application_cleanup(Application* application) {
 }
 
 #ifdef __EMSCRIPTEN__
-void _emit_window_resize_event(SDL_Window* window, SDL_Event* event) {
+void application_emit_window_resize_event(Application* application) {
     int32_t window_width;
     int32_t window_height;
-    SDL_GetWindowSize(window, &window_width, &window_height);
+    SDL_GetWindowSize(
+        application->window.platform_window, &window_width, &window_height
+    );
 
     double w;
     double h;
@@ -134,12 +144,13 @@ void _emit_window_resize_event(SDL_Window* window, SDL_Event* event) {
 
     if (window_width != (int32_t)canvas_width ||
         window_height != (int32_t)canvas_height) {
-        event->type = SDL_WINDOWEVENT;
-        event->window.event = SDL_WINDOWEVENT_RESIZED;
-        event->window.data1 = canvas_width;
-        event->window.data2 = canvas_height;
-
-        SDL_PushEvent(event);
+        Event event =
+            {.type = WINDOW_RESIZE_EVENT,
+             .window_resize = {
+                 .width = canvas_width,
+                 .height = canvas_height,
+             }};
+        application_handle_event(application, event);
     }
 }
 #endif

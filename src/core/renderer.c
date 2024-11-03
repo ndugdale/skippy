@@ -6,19 +6,14 @@
 #include "texture.h"
 #include "window.h"
 
-Renderer renderer_create(Window* window) {
+void renderer_init(Renderer* renderer, Window* window) {
     void* platform_renderer = SDL_CreateRenderer(
         window->platform_window, -1, SDL_RENDERER_ACCELERATED
     );
     ASSERT(platform_renderer != NULL, "Failed to create SDL_Renderer");
 
     SDL_RenderSetScale(platform_renderer, 8.0, 8.0);
-
-    Renderer renderer = {
-        .platform_renderer = platform_renderer,
-    };
-
-    return renderer;
+    renderer->platform_renderer = platform_renderer;
 }
 
 void renderer_clear(

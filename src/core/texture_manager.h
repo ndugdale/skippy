@@ -6,14 +6,14 @@
 #include "core/texture.h"
 #include "core/texture_manager.h"
 
-#define MAX_NUM_TEXTURES 255
+#define MAX_TEXTURES 256
 
 typedef struct {
-    Texture textures[MAX_NUM_TEXTURES];
+    Texture textures[MAX_TEXTURES];
     uint16_t insert_index;
 } TextureManager;
 
-TextureManager texture_manager_create(Renderer* renderer);
+void texture_manager_init(TextureManager* texture_manager, Renderer* renderer);
 Texture texture_manager_get_texture(
     TextureManager* texture_manager, const char* id
 );

@@ -1,6 +1,7 @@
 #include "window.h"
 
 #include <SDL2/SDL.h>
+#include <stdint.h>
 
 #include "core/log.h"
 
@@ -9,7 +10,7 @@
 #include <emscripten/html5.h>
 #endif
 
-Window window_create(const char* title) {
+void window_init(Window* window, const char* title) {
 #ifdef __EMSCRIPTEN__
     double w;
     double h;
@@ -33,11 +34,16 @@ Window window_create(const char* title) {
     );
     ASSERT(platform_window != NULL, "Failed to create SDL_Window");
 
-    Window window = {
-        .platform_window = platform_window,
-    };
+    window->platform_window = platform_window;
+}
 
-    return window;
+void window_resize(Window* window, uint16_t width, uint16_t height) {
+    SDL_SetWindowSize(window->platform_window, width, height);
+}
+
+void window_close(Window* window) {
+    // TODO: change to stop loop
+    exit(0);
 }
 
 void window_destroy(Window* window) {

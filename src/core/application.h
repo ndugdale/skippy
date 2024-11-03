@@ -1,15 +1,14 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <stdbool.h>
-#include <stdint.h>
 
 #include "core/clock.h"
 #include "core/renderer.h"
 #include "core/texture_manager.h"
 #include "core/window.h"
-#include "player.h"
-#include "turners.h"
+#include "event/event.h"
+#include "game/player.h"
+#include "game/turners.h"
 
 typedef struct {
     Window window;
@@ -19,13 +18,11 @@ typedef struct {
     Player player;
     Turners turners;
     SDL_Color background;
-    uint16_t score;
-    uint16_t hiscore;
-    bool round_in_progress;
 } Application;
 
 void application_init(Application* application);
-void application_handle_input(Application* application);
+void application_dispatch_events(Application* application);
+void application_handle_event(Application* application, Event event);
 void application_update(Application* application);
 void application_render(Application* application);
 void application_cleanup(Application* application);

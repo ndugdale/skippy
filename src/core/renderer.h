@@ -10,7 +10,7 @@ typedef struct {
     void* platform_renderer;
 } Renderer;
 
-Renderer renderer_create(Window* window);
+void renderer_init(Renderer* renderer, Window* window);
 void renderer_clear(
     Renderer* renderer, uint8_t r, uint8_t g, uint8_t b, uint8_t a
 );

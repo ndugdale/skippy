@@ -1,10 +1,12 @@
 #pragma once
 
-#include "SDL2/SDL.h"
+#include <stdint.h>
 
 typedef struct {
     void* platform_window;
 } Window;
 
-Window window_create(const char* title);
+void window_init(Window* window, const char* title);
+void window_resize(Window* window, uint16_t width, uint16_t height);
+void window_close(Window* window);
 void window_destroy(Window* window);

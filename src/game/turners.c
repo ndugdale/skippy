@@ -1,24 +1,22 @@
-#include "turners.h"
+#include "game/turners.h"
 
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
 
-Turners turners_create(TextureManager* texture_manager) {
-    Turners turners = {
-        .texture = texture_manager_get_texture(texture_manager, "turners"),
-        .frame = 0,
-        .frame_count = 8,
-        .frame_duration = 0.1f,
-        .last_frame_ticks = 0,
-        .x_0 = 32,
-        .y_0 = 32,
-        .width = 96,
-        .height = 32,
-        .frozen = true,
-    };
+#include "event/event.h"
 
-    return turners;
+void turners_init(Turners* turners, TextureManager* texture_manager) {
+    turners->texture = texture_manager_get_texture(texture_manager, "turners");
+    turners->frame = 0;
+    turners->frame_count = 8;
+    turners->frame_duration = 0.1f;
+    turners->last_frame_ticks = 0;
+    turners->x_0 = 32;
+    turners->y_0 = 32;
+    turners->width = 96;
+    turners->height = 32;
+    turners->frozen = true;
 }
 
 void turners_update(Turners* turners, float delta_time) {
@@ -27,6 +25,7 @@ void turners_update(Turners* turners, float delta_time) {
     }
 
     // Animate turners
+    // TODO: remove SDL api
     uint64_t elapsed = SDL_GetPerformanceCounter();
     float frame_delta_time = (float)(elapsed - turners->last_frame_ticks) /
                              SDL_GetPerformanceFrequency();
@@ -50,4 +49,16 @@ uint16_t turners_get_z_index(Turners* turners) {
     return (turners->frame >= 0 && turners->frame < turners->frame_count / 2)
                ? 0
                : 1;
+}
+
+void turners_handle_event(Turners* turners, Event event) {
+    switch (event.type) {
+        case KEY_PRESS_EVENT:
+            if (event.key_press.keycode == KEYCODE_SPACE) {
+                turners->frozen = false;
+            }
+            break;
+        default:
+            break;
+    }
 }

@@ -10,7 +10,7 @@
 Application application;
 
 void main_loop(void) {
-    application_handle_input(&application);
+    application_dispatch_events(&application);
     application_update(&application);
     application_render(&application);
 }

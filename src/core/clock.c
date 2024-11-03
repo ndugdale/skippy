@@ -3,13 +3,9 @@
 #include <SDL2/SDL.h>
 #include <stdint.h>
 
-Clock clock_create() {
-    Clock clock = {
-        .elapsed_ticks = 0,
-        .delta_time = 0.0f,
-    };
-
-    return clock;
+void clock_init(Clock* clock) {
+    clock->elapsed_ticks = 0;
+    clock->delta_time = 0.0f;
 }
 
 float clock_tick(Clock* clock) {

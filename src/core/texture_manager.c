@@ -14,18 +14,15 @@ static void texture_manager_load_texture(
     const char* path
 );
 
-TextureManager texture_manager_create(Renderer* renderer) {
-    TextureManager texture_manager;
-    texture_manager.insert_index = 0;
+void texture_manager_init(TextureManager* texture_manager, Renderer* renderer) {
+    texture_manager->insert_index = 0;
 
     texture_manager_load_texture(
-        &texture_manager, renderer, "player", "assets/sprites/player.png"
+        texture_manager, renderer, "player", "assets/sprites/player.png"
     );
     texture_manager_load_texture(
-        &texture_manager, renderer, "turners", "assets/sprites/turners.png"
+        texture_manager, renderer, "turners", "assets/sprites/turners.png"
     );
-
-    return texture_manager;
 }
 
 Texture texture_manager_get_texture(
@@ -51,7 +48,7 @@ void texture_manager_load_texture(
     const char* path
 ) {
     ASSERT(
-        texture_manager->insert_index < MAX_NUM_TEXTURES - 1,
+        texture_manager->insert_index < MAX_TEXTURES,
         "Failed to load texture with id %s because the maximum number of "
         "loaded textures has been reached",
         id
