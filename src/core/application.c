@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "clock.h"
+#include "core/clock.h"
 #include "core/log.h"
 #include "player.h"
 #include "turners.h"

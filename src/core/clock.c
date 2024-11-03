@@ -1,4 +1,4 @@
-#include "clock.h"
+#include "core/clock.h"
 
 #include <SDL2/SDL.h>
 #include <stdint.h>

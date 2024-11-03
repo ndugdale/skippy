@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "clock.h"
+#include "core/clock.h"
 #include "core/renderer.h"
 #include "core/texture_manager.h"
 #include "core/window.h"
