@@ -100,8 +100,6 @@ void application_render(Application* application) {
         application->background.g, application->background.b,
         application->background.a
     );
-    // TODO: create abstraction
-    SDL_RenderClear(application->renderer.platform_renderer);
 
     if (turners_get_z_index(&application->turners) > 0) {
         player_render(&application->player, &application->renderer);
@@ -111,8 +109,7 @@ void application_render(Application* application) {
         player_render(&application->player, &application->renderer);
     }
 
-    // TODO: create abstraction
-    SDL_RenderPresent(application->renderer.platform_renderer);
+    renderer_present(&application->renderer);
 }
 
 void application_cleanup(Application* application) {
