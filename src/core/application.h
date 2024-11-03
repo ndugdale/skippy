@@ -1,15 +1,20 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
+
 #include "clock.h"
+#include "core/renderer.h"
+#include "core/texture_manager.h"
+#include "core/window.h"
 #include "player.h"
 #include "turners.h"
 
 typedef struct {
-    SDL_Window* window;
-    SDL_Renderer* renderer;
+    Window window;
+    Renderer renderer;
+    TextureManager texture_manager;
     Clock clock;
     Player player;
     Turners turners;

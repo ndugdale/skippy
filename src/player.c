@@ -1,10 +1,12 @@
 #include "player.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
-Player player_create(SDL_Renderer* renderer) {
+#include <SDL2/SDL.h>
+
+#include "core/texture_manager.h"
+
+Player player_create(TextureManager* texture_manager) {
     Player player = {
-        .texture = IMG_LoadTexture(renderer, "assets/sprites/player.png"),
+        .texture = texture_manager_get_texture(texture_manager, "player"),
         .x_0 = 64,
         .y_0 = 32,
         .width = 32,
@@ -16,10 +18,6 @@ Player player_create(SDL_Renderer* renderer) {
         .frozen = true,
     };
 
-    if (player.texture == NULL) {
-        // error
-    }
-
     return player;
 }
 
@@ -29,18 +27,18 @@ void player_handle_input(Player* player, SDL_Event event) {
     }
 
     switch (event.type) {
-    case SDL_KEYDOWN:
-        switch (event.key.keysym.sym) {
-        case SDLK_SPACE:
-            if (player->y >= 0.0f) {
-                player->v_y = player->v_jump;
+        case SDL_KEYDOWN:
+            switch (event.key.keysym.sym) {
+                case SDLK_SPACE:
+                    if (player->y >= 0.0f) {
+                        player->v_y = player->v_jump;
+                    }
+                default:
+                    break;
             }
+            break;
         default:
             break;
-        }
-        break;
-    default:
-        break;
     }
 }
 
@@ -60,12 +58,12 @@ void player_update(Player* player, float delta_time) {
     }
 }
 
-void player_render(Player* player, SDL_Renderer* renderer) {
-    SDL_Rect dest_rect = {
-        player->x_0, (uint16_t)((float)player->y_0 + player->y), player->width,
-        player->height
-    };
-    SDL_RenderCopy(renderer, player->texture, NULL, &dest_rect);
+void player_render(Player* player, Renderer* renderer) {
+    renderer_blit_sprite(
+        renderer, &player->texture, player->x_0,
+        (uint16_t)((float)player->y_0 + player->y), player->width,
+        player->height, 0
+    );
 }
 
-void player_cleanup(Player* player) { SDL_DestroyTexture(player->texture); }
+void player_cleanup(Player* player) {}

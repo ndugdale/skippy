@@ -4,8 +4,12 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "core/renderer.h"
+#include "core/texture.h"
+#include "core/texture_manager.h"
+
 typedef struct {
-    SDL_Texture* texture;
+    Texture texture;
     uint16_t frame;
     uint16_t frame_count;
     float frame_duration;
@@ -17,8 +21,8 @@ typedef struct {
     bool frozen;
 } Turners;
 
-Turners turners_create(SDL_Renderer* renderer);
+Turners turners_create(TextureManager* texture_manager);
 void turners_update(Turners* turners, float delta_time);
-void turners_render(Turners* turners, SDL_Renderer* renderer);
+void turners_render(Turners* turners, Renderer* renderer);
 void turners_cleanup(Turners* turners);
 uint16_t turners_get_z_index(Turners* turners);

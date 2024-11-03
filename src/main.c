@@ -1,6 +1,7 @@
-#include "application.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_log.h>
+
+#include "core/application.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>

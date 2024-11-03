@@ -1,12 +1,12 @@
 #include "turners.h"
+
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <stdbool.h>
 #include <stdint.h>
 
-Turners turners_create(SDL_Renderer* renderer) {
+Turners turners_create(TextureManager* texture_manager) {
     Turners turners = {
-        .texture = IMG_LoadTexture(renderer, "assets/sprites/turners.png"),
+        .texture = texture_manager_get_texture(texture_manager, "turners"),
         .frame = 0,
         .frame_count = 8,
         .frame_duration = 0.1f,
@@ -17,10 +17,6 @@ Turners turners_create(SDL_Renderer* renderer) {
         .height = 32,
         .frozen = true,
     };
-
-    if (turners.texture == NULL) {
-        // error
-    }
 
     return turners;
 }
@@ -41,17 +37,14 @@ void turners_update(Turners* turners, float delta_time) {
     }
 }
 
-void turners_render(Turners* turners, SDL_Renderer* renderer) {
-    SDL_Rect src_rect = {
-        turners->frame * turners->width, 0, turners->width, turners->height
-    };
-    SDL_Rect dest_rect = {
-        turners->x_0, turners->y_0, turners->width, turners->height
-    };
-    SDL_RenderCopy(renderer, turners->texture, &src_rect, &dest_rect);
+void turners_render(Turners* turners, Renderer* renderer) {
+    renderer_blit_sprite(
+        renderer, &turners->texture, turners->x_0, turners->y_0, turners->width,
+        turners->height, turners->frame
+    );
 }
 
-void turners_cleanup(Turners* turners) { SDL_DestroyTexture(turners->texture); }
+void turners_cleanup(Turners* turners) {}
 
 uint16_t turners_get_z_index(Turners* turners) {
     return (turners->frame >= 0 && turners->frame < turners->frame_count / 2)
