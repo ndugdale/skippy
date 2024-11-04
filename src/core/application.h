@@ -1,7 +1,5 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-
 #include "core/clock.h"
 #include "core/renderer.h"
 #include "core/texture_manager.h"
@@ -19,7 +17,7 @@ typedef struct {
     Clock clock;
     Player player;
     Turners turners;
-    SDL_Color background;  // TODO: remove SDL api
+    Color background;
 } Application;
 
 void application_init(Application* application);

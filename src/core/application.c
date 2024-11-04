@@ -38,7 +38,7 @@ void application_init(Application* application) {
     clock_init(&application->clock);
     player_init(&application->player, &application->texture_manager);
     turners_init(&application->turners, &application->texture_manager);
-    application->background = (SDL_Color){195, 193, 240, 255};
+    application->background = (Color){195, 193, 240, 255};
 }
 
 void application_dispatch_events(Application* application) {
