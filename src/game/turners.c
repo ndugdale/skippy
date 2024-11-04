@@ -4,19 +4,22 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
 
-void turners_init(Turners* turners, TextureManager* texture_manager) {
+void turners_init(
+    Turners* turners, Window* window, TextureManager* texture_manager
+) {
     turners->texture = texture_manager_get_texture(texture_manager, "turners");
     turners->frame = 0;
     turners->frame_count = 8;
     turners->frame_duration = 0.1f;
     turners->last_frame_ticks = 0;
-    turners->x_0 = 32;
-    turners->y_0 = 32;
     turners->width = 96;
     turners->height = 32;
+    turners->x_0 = window->width / (2 * RENDERER_SCALE) - turners->width / 2;
+    turners->y_0 = window->height / (2 * RENDERER_SCALE) - turners->height;
 }
 
 void turners_handle_event(
@@ -28,6 +31,12 @@ void turners_handle_event(
                 !game_manager->running) {
                 game_manager->running = true;
             }
+            break;
+        case WINDOW_RESIZE_EVENT:
+            turners->x_0 = event.window_resize.width / (2 * RENDERER_SCALE) -
+                           turners->width / 2;
+            turners->y_0 = event.window_resize.height / (2 * RENDERER_SCALE) -
+                           turners->height;
             break;
         default:
             break;

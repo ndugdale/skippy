@@ -34,11 +34,15 @@ void window_init(Window* window, const char* title) {
     );
     ASSERT(platform_window != NULL, "Failed to create SDL_Window");
 
+    window->width = width;
+    window->height = height;
     window->platform_window = platform_window;
 }
 
 void window_resize(Window* window, uint16_t width, uint16_t height) {
     SDL_SetWindowSize(window->platform_window, width, height);
+    window->width = width;
+    window->height = height;
 }
 
 void window_close(Window* window) {

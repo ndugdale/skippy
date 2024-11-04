@@ -36,8 +36,14 @@ void application_init(Application* application) {
     texture_manager_init(&application->texture_manager, &application->renderer);
     game_manager_init(&application->game_manager);
     clock_init(&application->clock);
-    player_init(&application->player, &application->texture_manager);
-    turners_init(&application->turners, &application->texture_manager);
+    player_init(
+        &application->player, &application->window,
+        &application->texture_manager
+    );
+    turners_init(
+        &application->turners, &application->window,
+        &application->texture_manager
+    );
     application->background = (Color){195, 193, 240, 255};
 }
 
@@ -63,7 +69,7 @@ void application_dispatch_events(Application* application) {
                 break;
             case SDL_KEYDOWN:
                 event.type = KEY_PRESS_EVENT;
-                event.key_press.keycode = KEYCODE_SPACE;
+                event.key_press.keycode = platform_event.key.keysym.sym;
                 break;
             default:
                 break;
@@ -91,14 +97,15 @@ void application_handle_event(Application* application, Event event) {
 #endif
             break;
         default:
-            player_handle_event(
-                &application->player, &application->game_manager, event
-            );
-            turners_handle_event(
-                &application->turners, &application->game_manager, event
-            );
             break;
     }
+
+    player_handle_event(
+        &application->player, &application->game_manager, event
+    );
+    turners_handle_event(
+        &application->turners, &application->game_manager, event
+    );
 }
 
 void application_update(Application* application) {

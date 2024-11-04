@@ -1,15 +1,18 @@
 #include "game/player.h"
 
 #include "core/texture_manager.h"
+#include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
 
-void player_init(Player* player, TextureManager* texture_manager) {
+void player_init(
+    Player* player, Window* window, TextureManager* texture_manager
+) {
     player->texture = texture_manager_get_texture(texture_manager, "player");
-    player->x_0 = 64;
-    player->y_0 = 32;
     player->width = 32;
     player->height = 32;
+    player->x_0 = window->width / (2 * RENDERER_SCALE) - player->width / 2;
+    player->y_0 = window->height / (2 * RENDERER_SCALE) - player->height;
     player->y = 0.0f;
     player->v_y = 0.0f;
     player->v_jump = -40.0f;
@@ -27,6 +30,12 @@ void player_handle_event(
                     player->v_y = player->v_jump;
                 }
             }
+            break;
+        case WINDOW_RESIZE_EVENT:
+            player->x_0 = event.window_resize.width / (2 * RENDERER_SCALE) -
+                          player->width / 2;
+            player->y_0 = event.window_resize.height / (2 * RENDERER_SCALE) -
+                          player->height;
             break;
         default:
             break;
@@ -50,7 +59,7 @@ void player_update(
 void player_render(Player* player, Renderer* renderer) {
     renderer_blit_sprite(
         renderer, &player->texture, player->x_0,
-        (uint16_t)((float)player->y_0 + player->y), player->width,
+        (int32_t)((float)player->y_0 + player->y), player->width,
         player->height, 0
     );
 }

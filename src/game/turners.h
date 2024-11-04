@@ -5,6 +5,7 @@
 #include "core/renderer.h"
 #include "core/texture.h"
 #include "core/texture_manager.h"
+#include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
 
@@ -14,13 +15,15 @@ typedef struct {
     uint16_t frame_count;
     float frame_duration;
     uint64_t last_frame_ticks;
-    uint16_t x_0;
-    uint16_t y_0;
+    int32_t x_0;
+    int32_t y_0;
     uint16_t width;
     uint16_t height;
 } Turners;
 
-void turners_init(Turners* turners, TextureManager* texture_manager);
+void turners_init(
+    Turners* turners, Window* window, TextureManager* texture_manager
+);
 void turners_handle_event(
     Turners* turners, GameManager* game_manager, Event event
 );
