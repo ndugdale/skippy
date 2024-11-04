@@ -50,7 +50,7 @@ void player_update(
     player->v_y += player->a_gravity * delta_time;
 
     // Check if the player has landed and reset values
-    if (player->y >= 1e-5) {
+    if (player->y > 0.0) {
         player->y = 0.0;
         player->v_y = 0.0;
     }

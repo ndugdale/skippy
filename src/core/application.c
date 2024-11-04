@@ -8,6 +8,7 @@
 #include "core/clock.h"
 #include "core/log.h"
 #include "event/event.h"
+#include "game/collision_system.h"
 #include "game/player.h"
 #include "game/turners.h"
 
@@ -43,6 +44,10 @@ void application_init(Application* application) {
     turners_init(
         &application->turners, &application->window,
         &application->texture_manager
+    );
+    collision_system_init(
+        &application->collision_system, &application->player,
+        &application->turners
     );
     application->background = (Color){195, 193, 240, 255};
 }
@@ -113,6 +118,9 @@ void application_update(Application* application) {
     player_update(&application->player, &application->game_manager, delta_time);
     turners_update(
         &application->turners, &application->game_manager, delta_time
+    );
+    collision_system_update(
+        &application->collision_system, &application->game_manager, delta_time
     );
 }
 

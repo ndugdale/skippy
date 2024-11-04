@@ -5,6 +5,7 @@
 #include "core/texture_manager.h"
 #include "core/window.h"
 #include "event/event.h"
+#include "game/collision_system.h"
 #include "game/game_manager.h"
 #include "game/player.h"
 #include "game/turners.h"
@@ -17,6 +18,7 @@ typedef struct {
     Clock clock;
     Player player;
     Turners turners;
+    CollisionSystem collision_system;
     Color background;
 } Application;
 
