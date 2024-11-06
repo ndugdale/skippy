@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 #include <stddef.h>
 
@@ -29,9 +30,11 @@ void application_init(Application* application) {
 
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "nearest");
 
+    ASSERT(TTF_Init() == 0, "Failed to initialise SDL_ttf");
+
     ASSERT(
         (IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG) == IMG_INIT_PNG,
-        "Failed to initialse SDL_image"
+        "Failed to initialise SDL_image"
     );
 
     texture_manager_init(&application->texture_manager, &application->renderer);

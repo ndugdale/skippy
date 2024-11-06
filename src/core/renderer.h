@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <stdint.h>
 
+#include "core/font.h"
 #include "core/texture.h"
 #include "window.h"
 
@@ -26,6 +27,10 @@ void renderer_clear(
 void renderer_blit_sprite(
     Renderer* renderer, Texture* texture, int32_t x, int32_t y, uint16_t width,
     uint16_t height, uint16_t frame
+);
+void renderer_blit_text(
+    Renderer* renderer, Font* font, const char* text, Color color, int32_t x,
+    int32_t y
 );
 void renderer_present(Renderer* renderer);
 void renderer_destroy(Renderer* renderer);
