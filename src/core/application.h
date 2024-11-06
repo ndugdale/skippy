@@ -2,7 +2,6 @@
 
 #include "core/clock.h"
 #include "core/renderer.h"
-#include "core/texture_manager.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/collision_system.h"
@@ -13,7 +12,6 @@
 typedef struct {
     Window window;
     Renderer renderer;
-    TextureManager texture_manager;
     GameManager game_manager;
     Clock clock;
     Player player;

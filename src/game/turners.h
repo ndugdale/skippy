@@ -4,7 +4,6 @@
 
 #include "core/renderer.h"
 #include "core/texture.h"
-#include "core/texture_manager.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
@@ -21,9 +20,7 @@ typedef struct {
     uint16_t height;
 } Turners;
 
-void turners_init(
-    Turners* turners, Window* window, TextureManager* texture_manager
-);
+void turners_init(Turners* turners, Window* window, Renderer* renderer);
 void turners_handle_event(
     Turners* turners, GameManager* game_manager, Event event
 );

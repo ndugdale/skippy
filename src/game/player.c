@@ -1,14 +1,14 @@
 #include "game/player.h"
 
-#include "core/texture_manager.h"
+#include "core/draw.h"
+#include "core/renderer.h"
+#include "core/texture.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
 
-void player_init(
-    Player* player, Window* window, TextureManager* texture_manager
-) {
-    player->texture = texture_manager_get_texture(texture_manager, "player");
+void player_init(Player* player, Window* window, Renderer* renderer) {
+    player->texture = load_texture(renderer, "assets/sprites/player.png");
     player->width = 32;
     player->height = 32;
     player->x_0 = window->width / (2 * RENDERER_SCALE) - player->width / 2;
@@ -57,11 +57,11 @@ void player_update(
 }
 
 void player_render(Player* player, Renderer* renderer) {
-    renderer_blit_sprite(
+    draw_sprite(
         renderer, &player->texture, player->x_0,
         (int32_t)((float)player->y_0 + player->y), player->width,
         player->height, 0
     );
 }
 
-void player_cleanup(Player* player) {}
+void player_cleanup(Player* player) { unload_texture(&player->texture); }

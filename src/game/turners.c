@@ -4,14 +4,14 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "core/draw.h"
+#include "core/texture.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
 
-void turners_init(
-    Turners* turners, Window* window, TextureManager* texture_manager
-) {
-    turners->texture = texture_manager_get_texture(texture_manager, "turners");
+void turners_init(Turners* turners, Window* window, Renderer* renderer) {
+    turners->texture = load_texture(renderer, "assets/sprites/turners.png");
     turners->frame = 0;
     turners->frame_count = 8;
     turners->frame_duration = 0.1f;
@@ -63,13 +63,13 @@ void turners_update(
 }
 
 void turners_render(Turners* turners, Renderer* renderer) {
-    renderer_blit_sprite(
+    draw_sprite(
         renderer, &turners->texture, turners->x_0, turners->y_0, turners->width,
         turners->height, turners->frame
     );
 }
 
-void turners_cleanup(Turners* turners) {}
+void turners_cleanup(Turners* turners) { unload_texture(&turners->texture); }
 
 uint16_t turners_get_z_index(Turners* turners) {
     return (turners->frame >= 0 && turners->frame < turners->frame_count / 2)

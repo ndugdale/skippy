@@ -8,6 +8,7 @@
 
 #include "core/clock.h"
 #include "core/log.h"
+#include "core/renderer.h"
 #include "event/event.h"
 #include "game/collision_system.h"
 #include "game/player.h"
@@ -37,16 +38,13 @@ void application_init(Application* application) {
         "Failed to initialise SDL_image"
     );
 
-    texture_manager_init(&application->texture_manager, &application->renderer);
     game_manager_init(&application->game_manager);
     clock_init(&application->clock);
     player_init(
-        &application->player, &application->window,
-        &application->texture_manager
+        &application->player, &application->window, &application->renderer
     );
     turners_init(
-        &application->turners, &application->window,
-        &application->texture_manager
+        &application->turners, &application->window, &application->renderer
     );
     collision_system_init(
         &application->collision_system, &application->player,
