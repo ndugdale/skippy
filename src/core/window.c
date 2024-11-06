@@ -50,6 +50,6 @@ void window_close(Window* window) {
     exit(0);
 }
 
-void window_destroy(Window* window) {
+void window_cleanup(Window* window) {
     SDL_DestroyWindow(window->platform_window);
 }

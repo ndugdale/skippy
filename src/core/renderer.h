@@ -22,4 +22,4 @@ void renderer_clear(
     Renderer* renderer, uint8_t r, uint8_t g, uint8_t b, uint8_t a
 );
 void renderer_present(Renderer* renderer);
-void renderer_destroy(Renderer* renderer);
+void renderer_cleanup(Renderer* renderer);

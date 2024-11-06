@@ -26,6 +26,6 @@ void renderer_present(Renderer* renderer) {
     SDL_RenderPresent(renderer->platform_renderer);
 }
 
-void renderer_destroy(Renderer* renderer) {
+void renderer_cleanup(Renderer* renderer) {
     SDL_DestroyRenderer(renderer->platform_renderer);
 }

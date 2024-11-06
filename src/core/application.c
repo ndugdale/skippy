@@ -146,8 +146,8 @@ void application_render(Application* application) {
 void application_cleanup(Application* application) {
     player_cleanup(&application->player);
     turners_cleanup(&application->turners);
-    renderer_destroy(&application->renderer);
-    window_destroy(&application->window);
+    renderer_cleanup(&application->renderer);
+    window_cleanup(&application->window);
     SDL_Quit();
 }
 
