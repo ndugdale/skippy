@@ -1,11 +1,17 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdint.h>
+
+#include "core/entity.h"
+
+#define GAME_MANAGER_ID "game_manager"
 
 typedef struct {
     bool running;
+    bool in_round_start_grace_period;
+    uint64_t round_start_ticks;
+    float round_start_grace_period_duration;
 } GameManager;
 
-void game_manager_init(GameManager* game_manager);
-void game_manager_start_game(GameManager* game_manager);
-void game_manager_end_game(GameManager* game_manager);
+void create_game_manager(EntityManager* entity_manager, void* dependencies);

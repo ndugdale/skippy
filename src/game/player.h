@@ -2,11 +2,10 @@
 
 #include <stdint.h>
 
-#include "core/renderer.h"
+#include "core/entity.h"
 #include "core/texture.h"
-#include "core/window.h"
-#include "event/event.h"
-#include "game/game_manager.h"
+
+#define PLAYER_ID "player"
 
 typedef struct {
     Texture texture;
@@ -20,10 +19,4 @@ typedef struct {
     float a_gravity;  // pixels/s^2
 } Player;
 
-void player_init(Player* player, Window* window, Renderer* renderer);
-void player_handle_event(
-    Player* player, GameManager* game_manager, Event event
-);
-void player_update(Player* player, GameManager* game_manager, float delta_time);
-void player_render(Player* player, Renderer* renderer);
-void player_cleanup(Player* player);
+void create_player(EntityManager* entity_manager, void* dependencies);

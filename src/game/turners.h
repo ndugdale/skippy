@@ -2,11 +2,10 @@
 
 #include <stdint.h>
 
-#include "core/renderer.h"
+#include "core/entity.h"
 #include "core/texture.h"
-#include "core/window.h"
-#include "event/event.h"
-#include "game/game_manager.h"
+
+#define TURNERS_ID "turners"
 
 typedef struct {
     Texture texture;
@@ -20,13 +19,4 @@ typedef struct {
     uint16_t height;
 } Turners;
 
-void turners_init(Turners* turners, Window* window, Renderer* renderer);
-void turners_handle_event(
-    Turners* turners, GameManager* game_manager, Event event
-);
-void turners_update(
-    Turners* turners, GameManager* game_manager, float delta_time
-);
-void turners_render(Turners* turners, Renderer* renderer);
-void turners_cleanup(Turners* turners);
-uint16_t turners_get_z_index(Turners* turners);
+void create_turners(EntityManager* entity_manager, void* dependencies);

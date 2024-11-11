@@ -10,7 +10,8 @@
 #include "core/log.h"
 #include "core/renderer.h"
 #include "event/event.h"
-#include "game/collision_system.h"
+#include "game/collision_manager.h"
+#include "game/game_manager.h"
 #include "game/player.h"
 #include "game/turners.h"
 
@@ -38,19 +39,14 @@ void application_init(Application* application) {
         "Failed to initialise SDL_image"
     );
 
-    game_manager_init(&application->game_manager);
+    init_entities(&application->entity_manager, application);
     clock_init(&application->clock);
-    player_init(
-        &application->player, &application->window, &application->renderer
-    );
-    turners_init(
-        &application->turners, &application->window, &application->renderer
-    );
-    collision_system_init(
-        &application->collision_system, &application->player,
-        &application->turners
-    );
     application->background = (Color){195, 193, 240, 255};
+
+    create_game_manager(&application->entity_manager, application);
+    create_collision_manager(&application->entity_manager, application);
+    create_player(&application->entity_manager, application);
+    create_turners(&application->entity_manager, application);
 }
 
 void application_dispatch_events(Application* application) {
@@ -106,23 +102,12 @@ void application_handle_event(Application* application, Event event) {
             break;
     }
 
-    player_handle_event(
-        &application->player, &application->game_manager, event
-    );
-    turners_handle_event(
-        &application->turners, &application->game_manager, event
-    );
+    handle_entities_event(&application->entity_manager, application, event);
 }
 
 void application_update(Application* application) {
     float delta_time = clock_tick(&application->clock);
-    player_update(&application->player, &application->game_manager, delta_time);
-    turners_update(
-        &application->turners, &application->game_manager, delta_time
-    );
-    collision_system_update(
-        &application->collision_system, &application->game_manager, delta_time
-    );
+    update_entities(&application->entity_manager, application, delta_time);
 }
 
 void application_render(Application* application) {
@@ -131,21 +116,12 @@ void application_render(Application* application) {
         application->background.g, application->background.b,
         application->background.a
     );
-
-    if (turners_get_z_index(&application->turners) > 0) {
-        player_render(&application->player, &application->renderer);
-        turners_render(&application->turners, &application->renderer);
-    } else {
-        turners_render(&application->turners, &application->renderer);
-        player_render(&application->player, &application->renderer);
-    }
-
+    render_entities(&application->entity_manager, application);
     renderer_present(&application->renderer);
 }
 
 void application_cleanup(Application* application) {
-    player_cleanup(&application->player);
-    turners_cleanup(&application->turners);
+    cleanup_entities(&application->entity_manager, application);
     renderer_cleanup(&application->renderer);
     window_cleanup(&application->window);
     SDL_Quit();

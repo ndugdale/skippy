@@ -4,13 +4,41 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "core/dependencies.h"
 #include "core/draw.h"
+#include "core/entity.h"
 #include "core/texture.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
 
-void turners_init(Turners* turners, Window* window, Renderer* renderer) {
+static void init_turners(void* context, void* dependencies);
+static void handle_turners_event(
+    void* context, void* dependencies, Event event
+);
+static void update_turners(void* context, void* dependencies, float delta_time);
+static void render_turners(void* context, void* dependencies);
+static void cleanup_turners(void* context, void* dependencies);
+
+void create_turners(EntityManager* entity_manager, void* dependencies) {
+    add_entity(
+        entity_manager, dependencies,
+        (EntityConfig
+        ){.id = TURNERS_ID,
+          .init = init_turners,
+          .handle_event = handle_turners_event,
+          .update = update_turners,
+          .render = render_turners,
+          .cleanup = cleanup_turners,
+          .size = sizeof(Turners)}
+    );
+}
+
+void init_turners(void* context, void* dependencies) {
+    Turners* turners = (Turners*)context;
+    Window* window = get_window(dependencies);
+    Renderer* renderer = get_renderer(dependencies);
+
     turners->texture = load_texture(renderer, "assets/sprites/turners.png");
     turners->frame = 0;
     turners->frame_count = 8;
@@ -22,16 +50,10 @@ void turners_init(Turners* turners, Window* window, Renderer* renderer) {
     turners->y_0 = window->height / (2 * RENDERER_SCALE) - turners->height;
 }
 
-void turners_handle_event(
-    Turners* turners, GameManager* game_manager, Event event
-) {
+void handle_turners_event(void* context, void* dependencies, Event event) {
+    Turners* turners = (Turners*)context;
+
     switch (event.type) {
-        case KEY_PRESS_EVENT:
-            if (event.key_press.keycode == KEYCODE_SPACE &&
-                !game_manager->running) {
-                game_manager->running = true;
-            }
-            break;
         case WINDOW_RESIZE_EVENT:
             turners->x_0 = event.window_resize.width / (2 * RENDERER_SCALE) -
                            turners->width / 2;
@@ -43,9 +65,12 @@ void turners_handle_event(
     }
 }
 
-void turners_update(
-    Turners* turners, GameManager* game_manager, float delta_time
-) {
+void update_turners(void* context, void* dependencies, float delta_time) {
+    Turners* turners = (Turners*)context;
+    EntityManager* entity_manager = get_entity_manager(dependencies);
+    GameManager* game_manager =
+        get_entity(entity_manager, dependencies, GAME_MANAGER_ID);
+
     if (!game_manager->running) {
         return;
     }
@@ -62,14 +87,21 @@ void turners_update(
     }
 }
 
-void turners_render(Turners* turners, Renderer* renderer) {
+void render_turners(void* context, void* dependencies) {
+    Turners* turners = (Turners*)context;
+    Renderer* renderer = get_renderer(dependencies);
+
     draw_sprite(
         renderer, &turners->texture, turners->x_0, turners->y_0, turners->width,
         turners->height, turners->frame
     );
 }
 
-void turners_cleanup(Turners* turners) { unload_texture(&turners->texture); }
+void cleanup_turners(void* context, void* dependencies) {
+    Turners* turners = (Turners*)context;
+
+    unload_texture(&turners->texture);
+}
 
 uint16_t turners_get_z_index(Turners* turners) {
     return (turners->frame >= 0 && turners->frame < turners->frame_count / 2)
