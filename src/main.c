@@ -1,5 +1,4 @@
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_log.h>
 
 #include "core/application.h"
 
@@ -26,6 +25,7 @@ int main(int argc, char** argv) {
 #else
     while (1) {
         main_loop();
+        // TODO: remove SDL api
         SDL_Delay(16);
     }
 #endif

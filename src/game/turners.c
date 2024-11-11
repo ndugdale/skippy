@@ -72,6 +72,9 @@ void update_turners(void* context, void* dependencies, float delta_time) {
         get_entity(entity_manager, dependencies, GAME_MANAGER_ID);
 
     if (!game_manager->running) {
+        if (turners->frame != 0) {
+            turners->frame = 0;
+        }
         return;
     }
 
