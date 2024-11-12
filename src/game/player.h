@@ -10,6 +10,7 @@
 #define PLAYER_HEIGHT 32
 #define PLAYER_JUMP_VELOCITY -40.0f         // pixels/s
 #define PLAYER_GRAVITY_ACCELERATION 240.0f  // pixels/s^2
+#define PLAYER_Z_INDEX 1
 
 typedef struct {
     Texture texture;

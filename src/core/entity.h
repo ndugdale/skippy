@@ -17,6 +17,7 @@ typedef struct {
     void (*cleanup)(void* context, void* dependencies);
     void* data;
     bool active;
+    uint8_t z_index;
 } Entity;
 
 typedef struct {
@@ -27,6 +28,7 @@ typedef struct {
     void (*render)(void* context, void* dependencies);
     void (*cleanup)(void* context, void* dependencies);
     size_t size;
+    uint8_t z_index;
 } EntityConfig;
 
 typedef struct {
@@ -49,6 +51,9 @@ void add_entity(
 );
 void* get_entity(
     EntityManager* entity_manager, void* dependencies, const char* id
+);
+void update_entity_z_index(
+    EntityManager* entity_manager, const char* id, uint8_t z_index
 );
 void remove_entity(
     EntityManager* entity_manager, void* dependencies, const char* id

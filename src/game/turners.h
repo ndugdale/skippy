@@ -10,6 +10,8 @@
 #define TURNERS_WIDTH 96
 #define TURNERS_HEIGHT 32
 #define TURNERS_FRAME_COUNT 8
+#define TURNERS_Z_INDEX_BACK 0
+#define TURNERS_Z_INDEX_FRONT 2
 
 typedef struct {
     Texture texture;

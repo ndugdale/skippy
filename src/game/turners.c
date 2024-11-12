@@ -1,7 +1,5 @@
 #include "game/turners.h"
 
-#include <stdint.h>
-
 #include "core/dependencies.h"
 #include "core/draw.h"
 #include "core/entity.h"
@@ -22,14 +20,16 @@ static void cleanup_turners(void* context, void* dependencies);
 void create_turners(EntityManager* entity_manager, void* dependencies) {
     add_entity(
         entity_manager, dependencies,
-        (EntityConfig
-        ){.id = TURNERS_ID,
-          .init = init_turners,
-          .handle_event = handle_turners_event,
-          .update = update_turners,
-          .render = render_turners,
-          .cleanup = cleanup_turners,
-          .size = sizeof(Turners)}
+        (EntityConfig){
+            .id = TURNERS_ID,
+            .init = init_turners,
+            .handle_event = handle_turners_event,
+            .update = update_turners,
+            .render = render_turners,
+            .cleanup = cleanup_turners,
+            .size = sizeof(Turners),
+            .z_index = TURNERS_Z_INDEX_BACK,
+        }
     );
 }
 
@@ -80,6 +80,15 @@ void update_turners(void* context, void* dependencies, float delta_time) {
         turners->frame = (turners->frame + 1) % TURNERS_FRAME_COUNT;
         start_timer(&turners->frame_timer, turners->frame_duration);
     }
+
+    // Update z-index
+    if (turners->frame == 0) {
+        update_entity_z_index(entity_manager, TURNERS_ID, TURNERS_Z_INDEX_BACK);
+    } else if (turners->frame == TURNERS_FRAME_COUNT / 2) {
+        update_entity_z_index(
+            entity_manager, TURNERS_ID, TURNERS_Z_INDEX_FRONT
+        );
+    }
 }
 
 void render_turners(void* context, void* dependencies) {
@@ -96,10 +105,4 @@ void cleanup_turners(void* context, void* dependencies) {
     Turners* turners = (Turners*)context;
 
     unload_texture(&turners->texture);
-}
-
-uint16_t turners_get_z_index(Turners* turners) {
-    return (turners->frame >= 0 && turners->frame < TURNERS_FRAME_COUNT / 2)
-               ? 0
-               : 1;
 }

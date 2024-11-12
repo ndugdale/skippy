@@ -19,14 +19,16 @@ static void cleanup_player(void* context, void* dependencies);
 void create_player(EntityManager* entity_manager, void* dependencies) {
     add_entity(
         entity_manager, dependencies,
-        (EntityConfig
-        ){.id = PLAYER_ID,
-          .init = init_player,
-          .handle_event = handle_player_event,
-          .update = update_player,
-          .render = render_player,
-          .cleanup = cleanup_player,
-          .size = sizeof(Player)}
+        (EntityConfig){
+            .id = PLAYER_ID,
+            .init = init_player,
+            .handle_event = handle_player_event,
+            .update = update_player,
+            .render = render_player,
+            .cleanup = cleanup_player,
+            .size = sizeof(Player),
+            .z_index = PLAYER_Z_INDEX,
+        }
     );
 }
 

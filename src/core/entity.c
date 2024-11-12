@@ -3,9 +3,14 @@
 #include <memory.h>
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "core/log.h"
+
+static int compare_entities_by_z_index(const void* a, const void* b);
+static void sort_entities_by_z_index(EntityManager* entity_manager);
 
 void init_entities(EntityManager* entity_manager, void* dependencies) {
     memset(entity_manager, 0, sizeof(EntityManager));
@@ -69,11 +74,14 @@ void add_entity(
         .cleanup = config.cleanup,
         .data = malloc(config.size),
         .active = true,
+        .z_index = config.z_index,
     };
 
     if (entity->init != NULL) {
         entity->init(entity->data, dependencies);
     }
+
+    sort_entities_by_z_index(entity_manager);
 }
 
 void* get_entity(
@@ -88,6 +96,22 @@ void* get_entity(
     }
 
     ASSERT(false, "Failed to get entity with id %s", id);
+}
+
+void update_entity_z_index(
+    EntityManager* entity_manager, const char* id, uint8_t z_index
+) {
+    for (size_t i = 0; i < entity_manager->entity_count; i++) {
+        Entity* entity = &entity_manager->entities[i];
+
+        if (entity->active && strcmp(entity->id, id) == 0) {
+            entity->z_index = z_index;
+            sort_entities_by_z_index(entity_manager);
+            return;
+        }
+    }
+
+    ASSERT(false, "Failed to update z index of entity with id %s", id);
 }
 
 void remove_entity(
@@ -105,4 +129,18 @@ void remove_entity(
             free(entity->data);
         }
     }
+}
+
+int compare_entities_by_z_index(const void* a, const void* b) {
+    const Entity* entity_a = (const Entity*)a;
+    const Entity* entity_b = (const Entity*)b;
+
+    return (int)(entity_a->z_index) - (int)(entity_b->z_index);
+}
+
+void sort_entities_by_z_index(EntityManager* entity_manager) {
+    qsort(
+        entity_manager->entities, entity_manager->entity_count, sizeof(Entity),
+        compare_entities_by_z_index
+    );
 }
