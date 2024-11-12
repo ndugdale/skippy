@@ -1,8 +1,8 @@
 #pragma once
 
-#include "core/clock.h"
 #include "core/entity.h"
 #include "core/renderer.h"
+#include "core/timer.h"
 #include "core/window.h"
 #include "event/event.h"
 
@@ -10,7 +10,7 @@ typedef struct {
     Window window;
     Renderer renderer;
     EntityManager entity_manager;
-    Clock clock;
+    Timer clock;
     Color background;
 } Application;
 

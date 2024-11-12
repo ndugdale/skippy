@@ -1,10 +1,10 @@
 #include "game/game_manager.h"
 
-#include <SDL2/SDL.h>
 #include <stdbool.h>
 
 #include "core/dependencies.h"
 #include "core/entity.h"
+#include "core/timer.h"
 #include "event/event.h"
 #include "game/collision_manager.h"
 
@@ -34,9 +34,7 @@ void init_game_manager(void* context, void* dependencies) {
     GameManager* game_manager = (GameManager*)context;
 
     game_manager->running = false;
-    game_manager->in_round_start_grace_period = false;
-    game_manager->round_start_ticks = 0;
-    game_manager->round_start_grace_period_duration = 0.1f;
+    start_timer(&game_manager->grace_timer, TIMER_EXPIRED);
 }
 
 void handle_game_manager_event(void* context, void* dependencies, Event event) {
@@ -47,9 +45,10 @@ void handle_game_manager_event(void* context, void* dependencies, Event event) {
             if (event.key_press.keycode == KEYCODE_SPACE &&
                 !game_manager->running) {
                 game_manager->running = true;
-                // TODO: remove SDL api
-                game_manager->round_start_ticks = SDL_GetPerformanceCounter();
-                game_manager->in_round_start_grace_period = true;
+                start_timer(
+                    &game_manager->grace_timer,
+                    GAME_MANAGER_GRACE_PERIOD_DURATION
+                );
             }
             break;
         default:
@@ -63,16 +62,7 @@ void update_game_manager(void* context, void* dependencies, float delta_time) {
     CollisionManager* collision_manager =
         get_entity(entity_manager, dependencies, COLLISION_MANAGER_ID);
 
-    // TODO: remove SDL api
-    uint64_t elapsed = SDL_GetPerformanceCounter();
-    float round_duration = (float)(elapsed - game_manager->round_start_ticks) /
-                           SDL_GetPerformanceFrequency();
-
-    game_manager->in_round_start_grace_period =
-        game_manager->running &&
-        round_duration <= game_manager->round_start_grace_period_duration;
-
-    if (!game_manager->in_round_start_grace_period &&
+    if (is_timer_expired(&game_manager->grace_timer) &&
         collision_manager->collision) {
         game_manager->running = false;
     }

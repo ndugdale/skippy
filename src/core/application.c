@@ -6,9 +6,9 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#include "core/clock.h"
 #include "core/log.h"
 #include "core/renderer.h"
+#include "core/timer.h"
 #include "event/event.h"
 #include "game/collision_manager.h"
 #include "game/game_manager.h"
@@ -40,7 +40,7 @@ void application_init(Application* application) {
     );
 
     init_entities(&application->entity_manager, application);
-    clock_init(&application->clock);
+    start_timer(&application->clock, TIMER_INFINITE);
     application->background = (Color){195, 193, 240, 255};
 
     create_game_manager(&application->entity_manager, application);
@@ -106,7 +106,8 @@ void application_handle_event(Application* application, Event event) {
 }
 
 void application_update(Application* application) {
-    float delta_time = clock_tick(&application->clock);
+    float delta_time = get_elapsed_time(&application->clock);
+    start_timer(&application->clock, TIMER_INFINITE);
     update_entities(&application->entity_manager, application, delta_time);
 }
 

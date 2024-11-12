@@ -5,6 +5,7 @@
 #include "core/entity.h"
 #include "core/renderer.h"
 #include "core/texture.h"
+#include "core/timer.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
@@ -35,14 +36,10 @@ void init_player(void* context, void* dependencies) {
     Renderer* renderer = get_renderer(dependencies);
 
     player->texture = load_texture(renderer, "assets/sprites/player.png");
-    player->width = 32;
-    player->height = 32;
-    player->x_0 = window->width / (2 * RENDERER_SCALE) - player->width / 2;
-    player->y_0 = window->height / (2 * RENDERER_SCALE) - player->height;
-    player->y = 0.0f;
+    player->x = window->width / (2 * RENDERER_SCALE) - PLAYER_WIDTH / 2;
+    player->y = window->height / (2 * RENDERER_SCALE) - PLAYER_HEIGHT;
+    player->y_jump = 0.0f;
     player->v_y = 0.0f;
-    player->v_jump = -40.0f;
-    player->a_gravity = 240.0f;
 }
 
 void handle_player_event(void* context, void* dependencies, Event event) {
@@ -55,17 +52,17 @@ void handle_player_event(void* context, void* dependencies, Event event) {
         case KEY_PRESS_EVENT:
             if (event.key_press.keycode == KEYCODE_SPACE &&
                 game_manager->running &&
-                !game_manager->in_round_start_grace_period) {
-                if (player->y >= 0.0f) {
-                    player->v_y = player->v_jump;
+                is_timer_expired(&game_manager->grace_timer)) {
+                if (player->y_jump >= 0.0f) {
+                    player->v_y = PLAYER_JUMP_VELOCITY;
                 }
             }
             break;
         case WINDOW_RESIZE_EVENT:
-            player->x_0 = event.window_resize.width / (2 * RENDERER_SCALE) -
-                          player->width / 2;
-            player->y_0 = event.window_resize.height / (2 * RENDERER_SCALE) -
-                          player->height;
+            player->x = event.window_resize.width / (2 * RENDERER_SCALE) -
+                        PLAYER_WIDTH / 2;
+            player->y = event.window_resize.height / (2 * RENDERER_SCALE) -
+                        PLAYER_HEIGHT;
             break;
         default:
             break;
@@ -76,12 +73,12 @@ void update_player(void* context, void* dependencies, float delta_time) {
     Player* player = (Player*)context;
 
     // Apply velocity and acceleration
-    player->y += player->v_y * delta_time;
-    player->v_y += player->a_gravity * delta_time;
+    player->y_jump += player->v_y * delta_time;
+    player->v_y += PLAYER_GRAVITY_ACCELERATION * delta_time;
 
     // Check if the player has landed and reset values
-    if (player->y > 0.0) {
-        player->y = 0.0;
+    if (player->y_jump > 0.0) {
+        player->y_jump = 0.0;
         player->v_y = 0.0;
     }
 }
@@ -91,9 +88,9 @@ void render_player(void* context, void* dependencies) {
     Renderer* renderer = get_renderer(dependencies);
 
     draw_sprite(
-        renderer, &player->texture, player->x_0,
-        (int32_t)((float)player->y_0 + player->y), player->width,
-        player->height, 0
+        renderer, &player->texture, player->x,
+        (int32_t)((float)player->y + player->y_jump), PLAYER_WIDTH,
+        PLAYER_HEIGHT, 0
     );
 }
 

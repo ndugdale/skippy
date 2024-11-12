@@ -1,17 +1,16 @@
 #pragma once
 
 #include <stdbool.h>
-#include <stdint.h>
 
 #include "core/entity.h"
+#include "core/timer.h"
 
 #define GAME_MANAGER_ID "game_manager"
+#define GAME_MANAGER_GRACE_PERIOD_DURATION 0.1
 
 typedef struct {
     bool running;
-    bool in_round_start_grace_period;
-    uint64_t round_start_ticks;
-    float round_start_grace_period_duration;
+    Timer grace_timer;
 } GameManager;
 
 void create_game_manager(EntityManager* entity_manager, void* dependencies);
