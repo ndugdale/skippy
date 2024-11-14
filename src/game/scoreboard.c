@@ -9,6 +9,7 @@
 #include "core/renderer.h"
 #include "core/window.h"
 #include "event/event.h"
+#include "game/event.h"
 
 static void init_scoreboard(void* context, void* dependencies);
 static void handle_scoreboard_event(
@@ -50,8 +51,23 @@ void init_scoreboard(void* context, void* dependencies) {
 
 void handle_scoreboard_event(void* context, void* dependencies, Event event) {
     Scoreboard* scoreboard = (Scoreboard*)context;
+    Window* window = get_window(dependencies);
 
     switch (event.type) {
+        case SCORE_INCREMENT_EVENT:
+            scoreboard->score++;
+            scoreboard->x = window->width / (2 * RENDERER_SCALE) -
+                            get_scoreboard_width(scoreboard) / 2;
+            scoreboard->y = window->height / (2 * RENDERER_SCALE) -
+                            get_scoreboard_height(scoreboard);
+            break;
+        case ROUND_START_EVENT:
+            scoreboard->score = 0;
+            scoreboard->x = window->width / (2 * RENDERER_SCALE) -
+                            get_scoreboard_width(scoreboard) / 2;
+            scoreboard->y = window->height / (2 * RENDERER_SCALE) -
+                            get_scoreboard_height(scoreboard);
+            break;
         case WINDOW_RESIZE_EVENT:
             scoreboard->x = event.window_resize.width / (2 * RENDERER_SCALE) -
                             get_scoreboard_width(scoreboard) / 2;

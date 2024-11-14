@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdbool.h>
 #include <stdint.h>
 
 #include "event/key.h"
@@ -10,6 +9,7 @@ typedef enum {
     WINDOW_CLOSE_EVENT,
     WINDOW_RESIZE_EVENT,
     KEY_PRESS_EVENT,
+    CUSTOM_EVENT,
 } EventType;
 
 typedef struct {
@@ -26,7 +26,6 @@ typedef struct {
 
 typedef struct {
     EventType type;
-    bool handled;
     union {
         WindowResizeEventData window_resize;
         WindowCloseEventData window_close;

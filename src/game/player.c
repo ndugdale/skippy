@@ -8,7 +8,7 @@
 #include "core/timer.h"
 #include "core/window.h"
 #include "event/event.h"
-#include "game/game_manager.h"
+#include "game/event.h"
 
 static void init_player(void* context, void* dependencies);
 static void handle_player_event(void* context, void* dependencies, Event event);
@@ -47,16 +47,11 @@ void init_player(void* context, void* dependencies) {
 void handle_player_event(void* context, void* dependencies, Event event) {
     Player* player = (Player*)context;
     EntityManager* entity_manager = get_entity_manager(dependencies);
-    GameManager* game_manager = get_entity(entity_manager, GAME_MANAGER_ID);
 
     switch (event.type) {
-        case KEY_PRESS_EVENT:
-            if (event.key_press.keycode == KEYCODE_SPACE &&
-                game_manager->running &&
-                is_timer_expired(&game_manager->grace_timer)) {
-                if (player->y_jump >= 0.0f) {
-                    player->v_y = PLAYER_JUMP_VELOCITY;
-                }
+        case PLAYER_JUMP_EVENT:
+            if (player->y_jump >= 0.0f) {
+                player->v_y = PLAYER_JUMP_VELOCITY;
             }
             break;
         case WINDOW_RESIZE_EVENT:

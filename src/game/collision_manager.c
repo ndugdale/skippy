@@ -2,10 +2,11 @@
 
 #include "core/dependencies.h"
 #include "core/entity.h"
+#include "event/event.h"
+#include "game/event.h"
 #include "game/player.h"
 #include "game/turners.h"
 
-static void init_collision_manager(void* context, void* dependencies);
 static void update_collision_manager(
     void* context, void* dependencies, float delta_time
 );
@@ -17,7 +18,7 @@ void create_collision_manager(
         entity_manager, dependencies,
         (EntityConfig){
             .id = COLLISION_MANAGER_ID,
-            .init = init_collision_manager,
+            .init = NULL,
             .handle_event = NULL,
             .update = update_collision_manager,
             .render = NULL,
@@ -26,19 +27,16 @@ void create_collision_manager(
     );
 }
 
-void init_collision_manager(void* context, void* dependencies) {
-    CollisionManager* collision_manager = (CollisionManager*)context;
-
-    collision_manager->collision = false;
-}
-
 void update_collision_manager(
     void* context, void* dependencies, float delta_time
 ) {
-    CollisionManager* collision_manager = (CollisionManager*)context;
     EntityManager* entity_manager = get_entity_manager(dependencies);
     Player* player = get_entity(entity_manager, PLAYER_ID);
     Turners* turners = get_entity(entity_manager, TURNERS_ID);
 
-    collision_manager->collision = turners->frame == 0 && player->y_jump >= 0.0;
+    if (turners->frame == 0 && player->y_jump >= 0.0) {
+        handle_entities_event(
+            entity_manager, dependencies, (Event){.type = COLLISION_EVENT}
+        );
+    };
 }

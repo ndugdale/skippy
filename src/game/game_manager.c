@@ -6,14 +6,11 @@
 #include "core/entity.h"
 #include "core/timer.h"
 #include "event/event.h"
-#include "game/collision_manager.h"
+#include "game/event.h"
 
 static void init_game_manager(void* context, void* dependencies);
 static void handle_game_manager_event(
     void* context, void* dependencies, Event event
-);
-static void update_game_manager(
-    void* context, void* dependencies, float delta_time
 );
 
 void create_game_manager(EntityManager* entity_manager, void* dependencies) {
@@ -23,7 +20,7 @@ void create_game_manager(EntityManager* entity_manager, void* dependencies) {
         ){.id = GAME_MANAGER_ID,
           .init = init_game_manager,
           .handle_event = handle_game_manager_event,
-          .update = update_game_manager,
+          .update = NULL,
           .render = NULL,
           .cleanup = NULL,
           .size = sizeof(GameManager)}
@@ -39,31 +36,46 @@ void init_game_manager(void* context, void* dependencies) {
 
 void handle_game_manager_event(void* context, void* dependencies, Event event) {
     GameManager* game_manager = (GameManager*)context;
+    EntityManager* entity_manager = get_entity_manager(dependencies);
 
     switch (event.type) {
         case KEY_PRESS_EVENT:
-            if (event.key_press.keycode == KEYCODE_SPACE &&
-                !game_manager->running) {
-                game_manager->running = true;
-                start_timer(
-                    &game_manager->grace_timer,
-                    GAME_MANAGER_GRACE_PERIOD_DURATION
+            if (event.key_press.keycode == KEYCODE_SPACE) {
+                if (!game_manager->running) {
+                    handle_entities_event(
+                        entity_manager, dependencies,
+                        (Event){.type = ROUND_START_EVENT}
+                    );
+                    break;
+                }
+                if (is_timer_expired(&game_manager->grace_timer)) {
+                    handle_entities_event(
+                        entity_manager, dependencies,
+                        (Event){.type = PLAYER_JUMP_EVENT}
+                    );
+                    break;
+                }
+                break;
+            }
+            break;
+        case ROUND_START_EVENT:
+            game_manager->running = true;
+            start_timer(
+                &game_manager->grace_timer, GAME_MANAGER_GRACE_PERIOD_DURATION
+            );
+            break;
+        case ROUND_END_EVENT:
+            game_manager->running = false;
+            break;
+        case COLLISION_EVENT:
+            if (is_timer_expired(&game_manager->grace_timer)) {
+                handle_entities_event(
+                    entity_manager, dependencies,
+                    (Event){.type = ROUND_END_EVENT}
                 );
             }
             break;
         default:
             break;
-    }
-}
-
-void update_game_manager(void* context, void* dependencies, float delta_time) {
-    GameManager* game_manager = (GameManager*)context;
-    EntityManager* entity_manager = get_entity_manager(dependencies);
-    CollisionManager* collision_manager =
-        get_entity(entity_manager, COLLISION_MANAGER_ID);
-
-    if (is_timer_expired(&game_manager->grace_timer) &&
-        collision_manager->collision) {
-        game_manager->running = false;
     }
 }

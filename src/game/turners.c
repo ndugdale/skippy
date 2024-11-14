@@ -7,6 +7,7 @@
 #include "core/timer.h"
 #include "core/window.h"
 #include "event/event.h"
+#include "game/event.h"
 #include "game/game_manager.h"
 #include "game/scoreboard.h"
 
@@ -81,17 +82,24 @@ void update_turners(void* context, void* dependencies, float delta_time) {
         turners->frame = (turners->frame + 1) % TURNERS_FRAME_COUNT;
         start_timer(&turners->frame_timer, turners->frame_duration);
 
-        // After successful turn increment score
-        // TODO: send increment score signal
-    }
-
-    // Update z-index
-    if (turners->frame == 0) {
-        update_entity_z_index(entity_manager, TURNERS_ID, TURNERS_Z_INDEX_BACK);
-    } else if (turners->frame == TURNERS_FRAME_COUNT / 2) {
-        update_entity_z_index(
-            entity_manager, TURNERS_ID, TURNERS_Z_INDEX_FRONT
-        );
+        // Update z-index
+        if (turners->frame == 0) {
+            update_entity_z_index(
+                entity_manager, TURNERS_ID, TURNERS_Z_INDEX_BACK
+            );
+        } else if (turners->frame == TURNERS_FRAME_COUNT / 2) {
+            update_entity_z_index(
+                entity_manager, TURNERS_ID, TURNERS_Z_INDEX_FRONT
+            );
+        }
+        // Increment score
+        else if (turners->frame == 1 &&
+                 is_timer_expired(&game_manager->grace_timer)) {
+            handle_entities_event(
+                entity_manager, dependencies,
+                (Event){.type = SCORE_INCREMENT_EVENT}
+            );
+        }
     }
 }
 
