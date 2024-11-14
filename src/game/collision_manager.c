@@ -37,8 +37,8 @@ void update_collision_manager(
 ) {
     CollisionManager* collision_manager = (CollisionManager*)context;
     EntityManager* entity_manager = get_entity_manager(dependencies);
-    Player* player = get_entity(entity_manager, dependencies, PLAYER_ID);
-    Turners* turners = get_entity(entity_manager, dependencies, TURNERS_ID);
+    Player* player = get_entity(entity_manager, PLAYER_ID);
+    Turners* turners = get_entity(entity_manager, TURNERS_ID);
 
     collision_manager->collision = turners->frame == 0 && player->y_jump >= 0.0;
 }

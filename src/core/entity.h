@@ -49,9 +49,7 @@ void cleanup_entities(EntityManager* entity_manager, void* dependencies);
 void add_entity(
     EntityManager* entity_manager, void* dependencies, EntityConfig config
 );
-void* get_entity(
-    EntityManager* entity_manager, void* dependencies, const char* id
-);
+void* get_entity(EntityManager* entity_manager, const char* id);
 void update_entity_z_index(
     EntityManager* entity_manager, const char* id, uint8_t z_index
 );

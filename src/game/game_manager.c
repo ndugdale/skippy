@@ -60,7 +60,7 @@ void update_game_manager(void* context, void* dependencies, float delta_time) {
     GameManager* game_manager = (GameManager*)context;
     EntityManager* entity_manager = get_entity_manager(dependencies);
     CollisionManager* collision_manager =
-        get_entity(entity_manager, dependencies, COLLISION_MANAGER_ID);
+        get_entity(entity_manager, COLLISION_MANAGER_ID);
 
     if (is_timer_expired(&game_manager->grace_timer) &&
         collision_manager->collision) {

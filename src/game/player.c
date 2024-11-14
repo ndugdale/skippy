@@ -47,8 +47,7 @@ void init_player(void* context, void* dependencies) {
 void handle_player_event(void* context, void* dependencies, Event event) {
     Player* player = (Player*)context;
     EntityManager* entity_manager = get_entity_manager(dependencies);
-    GameManager* game_manager =
-        get_entity(entity_manager, dependencies, "game_manager");
+    GameManager* game_manager = get_entity(entity_manager, GAME_MANAGER_ID);
 
     switch (event.type) {
         case KEY_PRESS_EVENT:

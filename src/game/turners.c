@@ -8,6 +8,7 @@
 #include "core/window.h"
 #include "event/event.h"
 #include "game/game_manager.h"
+#include "game/scoreboard.h"
 
 static void init_turners(void* context, void* dependencies);
 static void handle_turners_event(
@@ -65,8 +66,8 @@ void handle_turners_event(void* context, void* dependencies, Event event) {
 void update_turners(void* context, void* dependencies, float delta_time) {
     Turners* turners = (Turners*)context;
     EntityManager* entity_manager = get_entity_manager(dependencies);
-    GameManager* game_manager =
-        get_entity(entity_manager, dependencies, GAME_MANAGER_ID);
+    GameManager* game_manager = get_entity(entity_manager, GAME_MANAGER_ID);
+    Scoreboard* scoreboard = get_entity(entity_manager, SCOREBOARD_ID);
 
     if (!game_manager->running) {
         if (turners->frame != 0) {
@@ -79,6 +80,9 @@ void update_turners(void* context, void* dependencies, float delta_time) {
     if (is_timer_expired(&turners->frame_timer)) {
         turners->frame = (turners->frame + 1) % TURNERS_FRAME_COUNT;
         start_timer(&turners->frame_timer, turners->frame_duration);
+
+        // After successful turn increment score
+        // TODO: send increment score signal
     }
 
     // Update z-index

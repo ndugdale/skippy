@@ -84,9 +84,7 @@ void add_entity(
     sort_entities_by_z_index(entity_manager);
 }
 
-void* get_entity(
-    EntityManager* entity_manager, void* dependencies, const char* id
-) {
+void* get_entity(EntityManager* entity_manager, const char* id) {
     for (size_t i = 0; i < entity_manager->entity_count; i++) {
         Entity* entity = &entity_manager->entities[i];
 

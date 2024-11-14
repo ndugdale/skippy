@@ -13,6 +13,7 @@
 #include "game/collision_manager.h"
 #include "game/game_manager.h"
 #include "game/player.h"
+#include "game/scoreboard.h"
 #include "game/turners.h"
 
 #ifdef __EMSCRIPTEN__
@@ -47,6 +48,7 @@ void application_init(Application* application) {
     create_collision_manager(&application->entity_manager, application);
     create_player(&application->entity_manager, application);
     create_turners(&application->entity_manager, application);
+    create_scoreboard(&application->entity_manager, application);
 }
 
 void application_dispatch_events(Application* application) {
