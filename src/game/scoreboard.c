@@ -19,6 +19,9 @@ static void render_scoreboard(void* context, void* dependencies);
 static void cleanup_scoreboard(void* context, void* dependencies);
 static uint16_t get_scoreboard_width(Scoreboard* scoreboard);
 static uint16_t get_scoreboard_height(Scoreboard* scoreboard);
+static void reposition_scoreboard(
+    Scoreboard* scoreboard, uint16_t window_width, uint16_t window_height
+);
 
 void create_scoreboard(EntityManager* entity_manager, void* dependencies) {
     add_entity(
@@ -43,10 +46,7 @@ void init_scoreboard(void* context, void* dependencies) {
     scoreboard->score = 0;
     scoreboard->font =
         load_font("assets/fonts/monogram.ttf", SCOREBOARD_FONT_SIZE);
-    scoreboard->x = window->width / (2 * RENDERER_SCALE) -
-                    get_scoreboard_width(scoreboard) / 2;
-    scoreboard->y = window->height / (2 * RENDERER_SCALE) -
-                    get_scoreboard_height(scoreboard);
+    reposition_scoreboard(scoreboard, window->width, window->height);
 }
 
 void handle_scoreboard_event(void* context, void* dependencies, Event event) {
@@ -56,23 +56,17 @@ void handle_scoreboard_event(void* context, void* dependencies, Event event) {
     switch (event.type) {
         case SCORE_INCREMENT_EVENT:
             scoreboard->score++;
-            scoreboard->x = window->width / (2 * RENDERER_SCALE) -
-                            get_scoreboard_width(scoreboard) / 2;
-            scoreboard->y = window->height / (2 * RENDERER_SCALE) -
-                            get_scoreboard_height(scoreboard);
+            reposition_scoreboard(scoreboard, window->width, window->height);
             break;
         case ROUND_START_EVENT:
             scoreboard->score = 0;
-            scoreboard->x = window->width / (2 * RENDERER_SCALE) -
-                            get_scoreboard_width(scoreboard) / 2;
-            scoreboard->y = window->height / (2 * RENDERER_SCALE) -
-                            get_scoreboard_height(scoreboard);
+            reposition_scoreboard(scoreboard, window->width, window->height);
             break;
         case WINDOW_RESIZE_EVENT:
-            scoreboard->x = event.window_resize.width / (2 * RENDERER_SCALE) -
-                            get_scoreboard_width(scoreboard) / 2;
-            scoreboard->y = event.window_resize.height / (2 * RENDERER_SCALE) -
-                            get_scoreboard_height(scoreboard);
+            reposition_scoreboard(
+                scoreboard, event.window_resize.width,
+                event.window_resize.height
+            );
             break;
         default:
             break;
@@ -109,4 +103,13 @@ uint16_t get_scoreboard_height(Scoreboard* scoreboard) {
     snprintf(buffer, sizeof(buffer), "%u", scoreboard->score);
 
     return get_text_height(&scoreboard->font, buffer);
+}
+
+void reposition_scoreboard(
+    Scoreboard* scoreboard, uint16_t window_width, uint16_t window_height
+) {
+    scoreboard->x = window_width / (2 * RENDERER_SCALE) -
+                    get_scoreboard_width(scoreboard) / 2;
+    scoreboard->y = window_height / (2 * RENDERER_SCALE) -
+                    2 * get_scoreboard_height(scoreboard);
 }
