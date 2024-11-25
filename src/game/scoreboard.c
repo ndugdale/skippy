@@ -109,7 +109,9 @@ void reposition_scoreboard(
     Scoreboard* scoreboard, uint16_t window_width, uint16_t window_height
 ) {
     scoreboard->x = window_width / (2 * RENDERER_SCALE) -
-                    get_scoreboard_width(scoreboard) / 2;
+                    get_scoreboard_width(scoreboard) / 2 -
+                    SCOREBOARD_CENTER_X_OFFSET;
     scoreboard->y = window_height / (2 * RENDERER_SCALE) -
-                    2 * get_scoreboard_height(scoreboard);
+                    get_scoreboard_height(scoreboard) / 2 -
+                    SCOREBOARD_CENTER_Y_OFFSET;
 }

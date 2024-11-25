@@ -7,10 +7,12 @@
 #include "core/renderer.h"
 
 #define SCOREBOARD_ID "scoreboard"
-#define SCOREBOARD_FONT_SIZE 40
+#define SCOREBOARD_FONT_SIZE 64
 #define SCOREBOARD_COLOR ((Color){.r = 170, .g = 157, .b = 246})
 #define SCOREBOARD_Z_INDEX 0
 #define SCOREBOARD_BUFFER_SIZE 8
+#define SCOREBOARD_CENTER_X_OFFSET -2
+#define SCOREBOARD_CENTER_Y_OFFSET 48
 
 typedef struct {
     uint16_t score;

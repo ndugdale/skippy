@@ -22,7 +22,10 @@ Font load_font(const char* path, uint16_t size) {
 
 uint16_t get_text_width(Font* font, const char* text) {
     int32_t width;
-    TTF_SizeText(font->platform_font, text, &width, NULL);
+    ASSERT(
+        TTF_SizeUTF8(font->platform_font, text, &width, NULL) == 0,
+        "Failed to calculate dimensions of rendered string '%s'", text
+    );
 
     return (uint16_t)width;
 }
