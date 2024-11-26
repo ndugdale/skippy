@@ -1,11 +1,11 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 
 set(PROJECT_NAME skippy)
 set(PROJECT_VERSION 1.0.0)
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra --use-port=sdl2 --use-port=sdl2_image:formats=png --use-port=sdl2_ttf")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra --use-port=sdl2 --use-port=sdl2_image:formats=png --use-port=sdl2_mixer --use-port=sdl2_ttf")
 
 set(SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 set(PUBLIC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/public")

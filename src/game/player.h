@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 
+#include "core/audio.h"
 #include "core/entity.h"
 #include "core/texture.h"
 
@@ -14,6 +15,7 @@
 
 typedef struct {
     Texture texture;
+    AudioEffect jump_audio_effect;
     int32_t x;
     int32_t y;
     float y_jump;

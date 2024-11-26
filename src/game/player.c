@@ -1,5 +1,6 @@
 #include "game/player.h"
 
+#include "core/audio.h"
 #include "core/dependencies.h"
 #include "core/draw.h"
 #include "core/entity.h"
@@ -38,6 +39,7 @@ void init_player(void* context, void* dependencies) {
     Renderer* renderer = get_renderer(dependencies);
 
     player->texture = load_texture(renderer, "assets/sprites/player.png");
+    player->jump_audio_effect = load_audio_effect("assets/audio/jump.wav");
     player->x = window->width / (2 * RENDERER_SCALE) - PLAYER_WIDTH / 2;
     player->y = window->height / (2 * RENDERER_SCALE) - PLAYER_HEIGHT;
     player->y_jump = 0.0f;
@@ -52,6 +54,7 @@ void handle_player_event(void* context, void* dependencies, Event event) {
         case PLAYER_JUMP_EVENT:
             if (player->y_jump >= 0.0f) {
                 player->v_y = PLAYER_JUMP_VELOCITY;
+                play_audio_effect(&player->jump_audio_effect);
             }
             break;
         case WINDOW_RESIZE_EVENT:

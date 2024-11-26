@@ -2,6 +2,7 @@
 
 #include <stdbool.h>
 
+#include "core/audio.h"
 #include "core/entity.h"
 #include "core/timer.h"
 
@@ -10,6 +11,7 @@
 
 typedef struct {
     bool running;
+    AudioEffect round_end_audio_effect;
     Timer grace_timer;
 } GameManager;
 
