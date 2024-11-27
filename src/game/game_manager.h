@@ -7,8 +7,8 @@
 #include "core/timer.h"
 
 #define GAME_MANAGER_ID "game_manager"
-#define GAME_MANAGER_GRACE_PERIOD_DURATION 0.1
-#define GAME_MANAGER_RESTART_PERIOD_DURATION 0.5
+#define GAME_MANAGER_GRACE_PERIOD_DURATION 0.1f
+#define GAME_MANAGER_RESTART_PERIOD_DURATION 0.5f
 
 typedef struct {
     bool running;

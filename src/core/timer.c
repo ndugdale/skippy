@@ -23,3 +23,7 @@ bool is_timer_expired(Timer* timer) {
     }
     return get_elapsed_time(timer) >= timer->duration;
 }
+
+uint16_t get_timer_laps(Timer* timer) {
+    return (uint16_t)(get_elapsed_time(timer) / timer->duration);
+}

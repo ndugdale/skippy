@@ -1,6 +1,6 @@
 #pragma once
 
-#define AUDIO_EFFECT_CHUNK_SIZE 1024
+#define AUDIO_EFFECT_CHUNK_SIZE 2048
 
 typedef struct {
     const char* path;

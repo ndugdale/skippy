@@ -14,3 +14,4 @@ typedef struct {
 void start_timer(Timer* timer, float duration);
 float get_elapsed_time(Timer* timer);
 bool is_timer_expired(Timer* timer);
+uint16_t get_timer_laps(Timer* timer);
