@@ -36,6 +36,7 @@ void init_game_manager(void* context, void* dependencies) {
     game_manager->round_end_audio_effect =
         load_audio_effect("assets/audio/round_end.wav");
     start_timer(&game_manager->grace_timer, TIMER_EXPIRED);
+    start_timer(&game_manager->restart_timer, TIMER_EXPIRED);
 }
 
 void handle_game_manager_event(void* context, void* dependencies, Event event) {
@@ -45,14 +46,16 @@ void handle_game_manager_event(void* context, void* dependencies, Event event) {
     switch (event.type) {
         case KEY_PRESS_EVENT:
             if (event.key_press.keycode == KEYCODE_SPACE) {
-                if (!game_manager->running) {
+                if (!game_manager->running &&
+                    is_timer_expired(&game_manager->restart_timer)) {
                     handle_entities_event(
                         entity_manager, dependencies,
                         (Event){.type = ROUND_START_EVENT}
                     );
                     break;
                 }
-                if (is_timer_expired(&game_manager->grace_timer)) {
+                if (game_manager->running &&
+                    is_timer_expired(&game_manager->grace_timer)) {
                     handle_entities_event(
                         entity_manager, dependencies,
                         (Event){.type = PLAYER_JUMP_EVENT}
@@ -71,6 +74,10 @@ void handle_game_manager_event(void* context, void* dependencies, Event event) {
         case ROUND_END_EVENT:
             game_manager->running = false;
             play_audio_effect(&game_manager->round_end_audio_effect);
+            start_timer(
+                &game_manager->restart_timer,
+                GAME_MANAGER_RESTART_PERIOD_DURATION
+            );
             break;
         case COLLISION_EVENT:
             if (game_manager->running &&
