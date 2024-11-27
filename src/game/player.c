@@ -41,7 +41,8 @@ void init_player(void* context, void* dependencies) {
     player->texture = load_texture(renderer, "assets/sprites/player.png");
     player->jump_audio_effect = load_audio_effect("assets/audio/jump.wav");
     player->x = window->width / (2 * RENDERER_SCALE) - PLAYER_WIDTH / 2;
-    player->y = window->height / (2 * RENDERER_SCALE) - PLAYER_HEIGHT;
+    player->y = window->height / (2 * RENDERER_SCALE) - PLAYER_HEIGHT / 2 -
+                PLAYER_CENTER_Y_OFFSET;
     player->y_jump = 0.0f;
     player->v_y = 0.0f;
 }
@@ -61,7 +62,7 @@ void handle_player_event(void* context, void* dependencies, Event event) {
             player->x = event.window_resize.width / (2 * RENDERER_SCALE) -
                         PLAYER_WIDTH / 2;
             player->y = event.window_resize.height / (2 * RENDERER_SCALE) -
-                        PLAYER_HEIGHT;
+                        PLAYER_HEIGHT / 2 - PLAYER_CENTER_Y_OFFSET;
             break;
         default:
             break;

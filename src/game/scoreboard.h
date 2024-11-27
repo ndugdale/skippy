@@ -12,7 +12,7 @@
 #define SCOREBOARD_Z_INDEX 0
 #define SCOREBOARD_BUFFER_SIZE 8
 #define SCOREBOARD_CENTER_X_OFFSET -2
-#define SCOREBOARD_CENTER_Y_OFFSET 48
+#define SCOREBOARD_CENTER_Y_OFFSET 36
 
 typedef struct {
     uint16_t score;

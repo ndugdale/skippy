@@ -15,6 +15,7 @@
 #define TURNERS_MAX_FRAME_DURATION 0.1f
 #define TURNERS_MIN_FRAME_DURATION 0.06f
 #define TURNERS_DELTA_FRAME_DURATION 0.001f
+#define TURNERS_CENTER_Y_OFFSET 4
 
 typedef struct {
     Texture texture;

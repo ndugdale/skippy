@@ -45,7 +45,8 @@ void init_turners(void* context, void* dependencies) {
     turners->frame_duration = TURNERS_MAX_FRAME_DURATION;
     turners->frames_since_rate_change = 0;
     turners->x = window->width / (2 * RENDERER_SCALE) - TURNERS_WIDTH / 2;
-    turners->y = window->height / (2 * RENDERER_SCALE) - TURNERS_HEIGHT;
+    turners->y = window->height / (2 * RENDERER_SCALE) - TURNERS_HEIGHT / 2 -
+                 TURNERS_CENTER_Y_OFFSET;
 
     start_timer(&turners->frame_rate_change_timer, TIMER_EXPIRED);
 }
@@ -58,7 +59,7 @@ void handle_turners_event(void* context, void* dependencies, Event event) {
             turners->x = event.window_resize.width / (2 * RENDERER_SCALE) -
                          TURNERS_WIDTH / 2;
             turners->y = event.window_resize.height / (2 * RENDERER_SCALE) -
-                         TURNERS_HEIGHT;
+                         TURNERS_HEIGHT / 2 - TURNERS_CENTER_Y_OFFSET;
             break;
         case PLAYER_JUMP_EVENT:
             if (turners->frame_duration > TURNERS_MIN_FRAME_DURATION) {

@@ -13,7 +13,7 @@
 #define PROMPT_Z_INDEX 0
 #define PROMPT_TEXT "Press space to jump"
 #define PROMPT_CENTER_X_OFFSET -2
-#define PROMPT_CENTER_Y_OFFSET -16
+#define PROMPT_CENTER_Y_OFFSET -28
 
 typedef struct {
     Font font;
