@@ -46,7 +46,6 @@ void init_prompt(void* context, void* dependencies) {
 
 void handle_prompt_event(void* context, void* dependencies, Event event) {
     Prompt* prompt = (Prompt*)context;
-    Window* window = get_window(dependencies);
 
     switch (event.type) {
         case ROUND_START_EVENT:

@@ -2,4 +2,6 @@ bin
 build
 dist
 
-.vscode
+# clangd
+.cache
+compile_commands.json

@@ -18,14 +18,15 @@ static void cleanup_game_manager(void* context, void* dependencies);
 void create_game_manager(EntityManager* entity_manager, void* dependencies) {
     add_entity(
         entity_manager, dependencies,
-        (EntityConfig
-        ){.id = GAME_MANAGER_ID,
-          .init = init_game_manager,
-          .handle_event = handle_game_manager_event,
-          .update = NULL,
-          .render = NULL,
-          .cleanup = cleanup_game_manager,
-          .size = sizeof(GameManager)}
+        (EntityConfig){
+            .id = GAME_MANAGER_ID,
+            .init = init_game_manager,
+            .handle_event = handle_game_manager_event,
+            .update = NULL,
+            .render = NULL,
+            .cleanup = cleanup_game_manager,
+            .size = sizeof(GameManager),
+        }
     );
 }
 
