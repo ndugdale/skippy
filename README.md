@@ -1,10 +1,10 @@
 # Skippy
 
-<p align="center">
-  <img src="/docs/images/skippy.png?raw=true" alt="Screenshot of Skippy"/>
-</p>
+Skippy is a simple browser-based game built using C, SDL2, and compiled to WebAssembly using Emscripten. [Play it now in the browser!](https://ndugdale.github.io/skippy/)
 
-Skippy is a simple browser-based game built using C, SDL2, and compiled to WebAssembly using Emscripten.
+<p align="center">
+  <img src="/docs/images/skippy.png?raw=true" alt="Screenshot of Skippy" width="80%" />
+</p>
 
 ## Requirements
 
