@@ -1,8 +1,8 @@
 #include <stdint.h>
 
 #include "core/font.h"
-#include "core/renderer.h"
-#include "core/texture.h"
+#include "renderer/renderer.h"
+#include "renderer/texture.h"
 
 void draw_sprite(
     Renderer* renderer, Texture* texture, int32_t x, int32_t y, uint16_t width,

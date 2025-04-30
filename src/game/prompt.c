@@ -4,13 +4,13 @@
 #include <stdint.h>
 
 #include "core/dependencies.h"
-#include "core/draw.h"
 #include "core/entity.h"
-#include "core/renderer.h"
 #include "core/utils.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/event.h"
+#include "renderer/draw.h"
+#include "renderer/renderer.h"
 
 static void init_prompt(void* context, void* dependencies);
 static void handle_prompt_event(void* context, void* dependencies, Event event);

@@ -3,8 +3,8 @@
 #include <stdint.h>
 
 #include "core/entity.h"
-#include "core/texture.h"
 #include "core/timer.h"
+#include "renderer/texture.h"
 
 #define TURNERS_ID "turners"
 #define TURNERS_WIDTH 96

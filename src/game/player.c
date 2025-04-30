@@ -2,14 +2,14 @@
 
 #include "core/audio.h"
 #include "core/dependencies.h"
-#include "core/draw.h"
 #include "core/entity.h"
-#include "core/renderer.h"
-#include "core/texture.h"
 #include "core/utils.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/event.h"
+#include "renderer/draw.h"
+#include "renderer/renderer.h"
+#include "renderer/texture.h"
 
 static void init_player(void* context, void* dependencies);
 static void handle_player_event(void* context, void* dependencies, Event event);

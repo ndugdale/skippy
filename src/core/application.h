@@ -1,10 +1,10 @@
 #pragma once
 
 #include "core/entity.h"
-#include "core/renderer.h"
 #include "core/timer.h"
 #include "core/window.h"
 #include "event/event.h"
+#include "renderer/renderer.h"
 
 typedef struct {
     Window window;

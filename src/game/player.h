@@ -4,7 +4,7 @@
 
 #include "core/audio.h"
 #include "core/entity.h"
-#include "core/texture.h"
+#include "renderer/texture.h"
 
 #define PLAYER_ID "player"
 #define PLAYER_WIDTH 32

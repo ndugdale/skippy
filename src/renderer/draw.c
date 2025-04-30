@@ -1,4 +1,4 @@
-#include "core/draw.h"
+#include "renderer/draw.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -6,8 +6,8 @@
 
 #include "core/font.h"
 #include "core/log.h"
-#include "core/renderer.h"
-#include "core/texture.h"
+#include "renderer/renderer.h"
+#include "renderer/texture.h"
 
 void draw_sprite(
     Renderer* renderer, Texture* texture, int32_t x, int32_t y, uint16_t width,

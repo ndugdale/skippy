@@ -1,6 +1,6 @@
 #pragma once
 
-#include "core/renderer.h"
+#include "renderer/renderer.h"
 
 typedef struct {
     const char* path;

@@ -1,15 +1,15 @@
 #include "game/turners.h"
 
 #include "core/dependencies.h"
-#include "core/draw.h"
 #include "core/entity.h"
-#include "core/texture.h"
 #include "core/timer.h"
 #include "core/utils.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/event.h"
 #include "game/game_manager.h"
+#include "renderer/draw.h"
+#include "renderer/texture.h"
 
 static void init_turners(void* context, void* dependencies);
 static void handle_turners_event(

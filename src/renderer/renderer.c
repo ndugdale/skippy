@@ -1,9 +1,9 @@
-#include "renderer.h"
+#include "renderer/renderer.h"
 
 #include <SDL2/SDL.h>
 
 #include "core/log.h"
-#include "window.h"
+#include "core/window.h"
 
 void renderer_init(Renderer* renderer, Window* window) {
     void* platform_renderer = SDL_CreateRenderer(

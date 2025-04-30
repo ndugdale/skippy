@@ -2,8 +2,8 @@
 
 #include "core/application.h"
 #include "core/entity.h"
-#include "core/renderer.h"
 #include "core/window.h"
+#include "renderer/renderer.h"
 
 EntityManager* get_entity_manager(void* dependencies) {
     return &((Application*)(dependencies))->entity_manager;

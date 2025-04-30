@@ -1,10 +1,10 @@
-#include "core/texture.h"
+#include "renderer/texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
 #include "core/log.h"
-#include "core/renderer.h"
+#include "renderer/renderer.h"
 
 Texture load_texture(Renderer* renderer, const char* path) {
     SDL_Texture* platform_texture =

@@ -1,4 +1,4 @@
-#include "application.h"
+#include "core/application.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -8,7 +8,6 @@
 #include <stddef.h>
 
 #include "core/log.h"
-#include "core/renderer.h"
 #include "core/timer.h"
 #include "event/event.h"
 #include "game/collision_manager.h"
@@ -17,6 +16,7 @@
 #include "game/prompt.h"
 #include "game/scoreboard.h"
 #include "game/turners.h"
+#include "renderer/renderer.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>

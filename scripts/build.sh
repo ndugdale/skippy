@@ -32,7 +32,7 @@ else
     emcmake cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_EXE_LINKER_FLAGS="--preload-file ../assets --use-preload-plugins" ..
 fi
 
-ln -s compile_commands.json ../compile_commands.json
+[ -L ../compile_commands.json ] || ln -s compile_commands.json ../compile_commands.json
 cmake --build .
 
 cd "$INITIAL_DIR"
