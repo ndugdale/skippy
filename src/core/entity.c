@@ -96,6 +96,7 @@ void* get_entity(EntityManager* entity_manager, const char* id) {
     }
 
     ASSERT(false, "Failed to get entity with id %s", id);
+    abort();
 }
 
 void update_entity_z_index(

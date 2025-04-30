@@ -2,6 +2,8 @@
 
 #include <SDL2/SDL.h>
 
+#include "core/utils.h"
+
 #ifndef NDEBUG
 #define LOG_DEBUG(...) SDL_LogDebug(SDL_LOG_CATEGORY_APPLICATION, __VA_ARGS__)
 #define LOG_INFO(...) SDL_LogInfo(SDL_LOG_CATEGORY_APPLICATION, __VA_ARGS__)
@@ -18,5 +20,5 @@
 #define LOG_WARN(x)
 #define LOG_ERROR(x)
 #define LOG_FATAL(x)
-#define ASSERT(condition, x)
+#define ASSERT(condition, ...) UNUSED(condition)
 #endif
