@@ -25,7 +25,7 @@ typedef struct {
 } KeyPressEventData;
 
 typedef struct {
-    EventType type;
+    int16_t type;
     union {
         WindowResizeEventData window_resize;
         WindowCloseEventData window_close;

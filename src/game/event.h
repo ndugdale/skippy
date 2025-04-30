@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdint.h>
+
 #include "event/event.h"
 
 typedef enum {
@@ -11,5 +13,5 @@ typedef enum {
 } GameEventType;
 
 typedef struct {
-    GameEventType type;
+    int16_t type;
 } GameEvent;
