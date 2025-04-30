@@ -1,5 +1,9 @@
 # Skippy
 
+<p align="center">
+  <img src="/docs/images/skippy.png?raw=true" alt="Screenshot of Skippy"/>
+</p>
+
 Skippy is a simple browser-based game built using C, SDL2, and compiled to WebAssembly using Emscripten.
 
 ## Requirements
