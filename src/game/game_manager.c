@@ -6,6 +6,7 @@
 #include "core/dependencies.h"
 #include "core/entity.h"
 #include "core/timer.h"
+#include "core/utils.h"
 #include "event/event.h"
 #include "game/event.h"
 
@@ -31,6 +32,7 @@ void create_game_manager(EntityManager* entity_manager, void* dependencies) {
 }
 
 void init_game_manager(void* context, void* dependencies) {
+    UNUSED(dependencies);
     GameManager* game_manager = (GameManager*)context;
 
     game_manager->running = false;
@@ -95,6 +97,7 @@ void handle_game_manager_event(void* context, void* dependencies, Event event) {
 }
 
 void cleanup_game_manager(void* context, void* dependencies) {
+    UNUSED(dependencies);
     GameManager* game_manager = (GameManager*)context;
 
     unload_audio_effect(&game_manager->round_end_audio_effect);

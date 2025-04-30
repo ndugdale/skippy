@@ -8,11 +8,13 @@
 #include <string.h>
 
 #include "core/log.h"
+#include "core/utils.h"
 
 static int compare_entities_by_z_index(const void* a, const void* b);
 static void sort_entities_by_z_index(EntityManager* entity_manager);
 
 void init_entities(EntityManager* entity_manager, void* dependencies) {
+    UNUSED(dependencies);
     memset(entity_manager, 0, sizeof(EntityManager));
 }
 

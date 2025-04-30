@@ -2,6 +2,7 @@
 
 #include "core/dependencies.h"
 #include "core/entity.h"
+#include "core/utils.h"
 #include "event/event.h"
 #include "game/event.h"
 #include "game/player.h"
@@ -30,6 +31,8 @@ void create_collision_manager(
 void update_collision_manager(
     void* context, void* dependencies, float delta_time
 ) {
+    UNUSED(context);
+    UNUSED(delta_time);
     EntityManager* entity_manager = get_entity_manager(dependencies);
     Player* player = get_entity(entity_manager, PLAYER_ID);
     Turners* turners = get_entity(entity_manager, TURNERS_ID);

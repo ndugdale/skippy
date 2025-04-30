@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #include "core/log.h"
+#include "core/utils.h"
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -46,7 +47,7 @@ void window_resize(Window* window, uint16_t width, uint16_t height) {
 }
 
 void window_close(Window* window) {
-    // TODO: change to stop loop
+    UNUSED(window);
     exit(0);
 }
 

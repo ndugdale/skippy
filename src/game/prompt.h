@@ -5,7 +5,6 @@
 
 #include "core/entity.h"
 #include "core/font.h"
-#include "core/renderer.h"
 
 #define PROMPT_ID "prompt"
 #define PROMPT_FONT_SIZE 16

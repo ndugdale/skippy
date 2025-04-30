@@ -13,7 +13,6 @@
 #include "event/event.h"
 #include "game/collision_manager.h"
 #include "game/game_manager.h"
-#include "game/highscore.h"
 #include "game/player.h"
 #include "game/prompt.h"
 #include "game/scoreboard.h"
@@ -60,7 +59,6 @@ void application_init(Application* application) {
     create_player(&application->entity_manager, application);
     create_turners(&application->entity_manager, application);
     create_scoreboard(&application->entity_manager, application);
-    create_highscore(&application->entity_manager, application);
     create_prompt(&application->entity_manager, application);
 }
 

@@ -4,7 +4,6 @@
 
 #include "core/entity.h"
 #include "core/font.h"
-#include "core/renderer.h"
 
 #define SCOREBOARD_ID "scoreboard"
 #define SCOREBOARD_FONT_SIZE 64

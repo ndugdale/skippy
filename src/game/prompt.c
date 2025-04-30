@@ -7,6 +7,7 @@
 #include "core/draw.h"
 #include "core/entity.h"
 #include "core/renderer.h"
+#include "core/utils.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/event.h"
@@ -45,6 +46,7 @@ void init_prompt(void* context, void* dependencies) {
 }
 
 void handle_prompt_event(void* context, void* dependencies, Event event) {
+    UNUSED(dependencies);
     Prompt* prompt = (Prompt*)context;
 
     switch (event.type) {
@@ -76,6 +78,7 @@ void render_prompt(void* context, void* dependencies) {
 }
 
 void cleanup_prompt(void* context, void* dependencies) {
+    UNUSED(dependencies);
     Prompt* prompt = (Prompt*)context;
 
     unload_font(&prompt->font);
@@ -84,10 +87,10 @@ void cleanup_prompt(void* context, void* dependencies) {
 void reposition_prompt(
     Prompt* prompt, uint16_t window_width, uint16_t window_height
 ) {
-    prompt->x = window_width / (2 * RENDERER_SCALE) -
-                get_text_width(&prompt->font, PROMPT_TEXT) / 2 -
+    prompt->x = window_width / (2.0f * RENDERER_SCALE) -
+                get_text_width(&prompt->font, PROMPT_TEXT) / 2.0f -
                 PROMPT_CENTER_X_OFFSET;
-    prompt->y = window_height / (2 * RENDERER_SCALE) -
-                get_text_height(&prompt->font, PROMPT_TEXT) / 2 -
+    prompt->y = window_height / (2.0f * RENDERER_SCALE) -
+                get_text_height(&prompt->font, PROMPT_TEXT) / 2.0f -
                 PROMPT_CENTER_Y_OFFSET;
 }

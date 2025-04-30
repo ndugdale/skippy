@@ -7,6 +7,7 @@
 #include "core/draw.h"
 #include "core/entity.h"
 #include "core/renderer.h"
+#include "core/utils.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/event.h"
@@ -86,6 +87,7 @@ void render_scoreboard(void* context, void* dependencies) {
 }
 
 void cleanup_scoreboard(void* context, void* dependencies) {
+    UNUSED(dependencies);
     Scoreboard* scoreboard = (Scoreboard*)context;
 
     unload_font(&scoreboard->font);
@@ -108,10 +110,10 @@ uint16_t get_scoreboard_height(Scoreboard* scoreboard) {
 void reposition_scoreboard(
     Scoreboard* scoreboard, uint16_t window_width, uint16_t window_height
 ) {
-    scoreboard->x = window_width / (2 * RENDERER_SCALE) -
-                    get_scoreboard_width(scoreboard) / 2 -
+    scoreboard->x = window_width / (2.0f * RENDERER_SCALE) -
+                    get_scoreboard_width(scoreboard) / 2.0f -
                     SCOREBOARD_CENTER_X_OFFSET;
-    scoreboard->y = window_height / (2 * RENDERER_SCALE) -
-                    get_scoreboard_height(scoreboard) / 2 -
+    scoreboard->y = window_height / (2.0f * RENDERER_SCALE) -
+                    get_scoreboard_height(scoreboard) / 2.0f -
                     SCOREBOARD_CENTER_Y_OFFSET;
 }

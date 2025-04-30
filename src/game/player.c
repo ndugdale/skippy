@@ -6,6 +6,7 @@
 #include "core/entity.h"
 #include "core/renderer.h"
 #include "core/texture.h"
+#include "core/utils.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/event.h"
@@ -39,16 +40,16 @@ void init_player(void* context, void* dependencies) {
 
     player->texture = load_texture(renderer, "assets/sprites/player.png");
     player->jump_audio_effect = load_audio_effect("assets/audio/jump.wav");
-    player->x = window->width / (2 * RENDERER_SCALE) - PLAYER_WIDTH / 2;
-    player->y = window->height / (2 * RENDERER_SCALE) - PLAYER_HEIGHT / 2 -
-                PLAYER_CENTER_Y_OFFSET;
+    player->x = window->width / (2.0f * RENDERER_SCALE) - PLAYER_WIDTH / 2.0f;
+    player->y = window->height / (2.0f * RENDERER_SCALE) -
+                PLAYER_HEIGHT / 2.0f - PLAYER_CENTER_Y_OFFSET;
     player->y_jump = 0.0f;
     player->v_y = 0.0f;
 }
 
 void handle_player_event(void* context, void* dependencies, Event event) {
+    UNUSED(dependencies);
     Player* player = (Player*)context;
-    EntityManager* entity_manager = get_entity_manager(dependencies);
 
     switch (event.type) {
         case PLAYER_JUMP_EVENT:
@@ -58,10 +59,10 @@ void handle_player_event(void* context, void* dependencies, Event event) {
             }
             break;
         case WINDOW_RESIZE_EVENT:
-            player->x = event.window_resize.width / (2 * RENDERER_SCALE) -
-                        PLAYER_WIDTH / 2;
-            player->y = event.window_resize.height / (2 * RENDERER_SCALE) -
-                        PLAYER_HEIGHT / 2 - PLAYER_CENTER_Y_OFFSET;
+            player->x = event.window_resize.width / (2.0f * RENDERER_SCALE) -
+                        PLAYER_WIDTH / 2.0f;
+            player->y = event.window_resize.height / (2.0f * RENDERER_SCALE) -
+                        PLAYER_HEIGHT / 2.0f - PLAYER_CENTER_Y_OFFSET;
             break;
         default:
             break;
@@ -69,6 +70,7 @@ void handle_player_event(void* context, void* dependencies, Event event) {
 }
 
 void update_player(void* context, void* dependencies, float delta_time) {
+    UNUSED(dependencies);
     Player* player = (Player*)context;
 
     // Apply velocity and acceleration
@@ -94,6 +96,7 @@ void render_player(void* context, void* dependencies) {
 }
 
 void cleanup_player(void* context, void* dependencies) {
+    UNUSED(dependencies);
     Player* player = (Player*)context;
 
     unload_texture(&player->texture);

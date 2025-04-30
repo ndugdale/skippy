@@ -5,11 +5,11 @@
 #include "core/entity.h"
 #include "core/texture.h"
 #include "core/timer.h"
+#include "core/utils.h"
 #include "core/window.h"
 #include "event/event.h"
 #include "game/event.h"
 #include "game/game_manager.h"
-#include "game/scoreboard.h"
 
 static void init_turners(void* context, void* dependencies);
 static void handle_turners_event(
@@ -44,22 +44,23 @@ void init_turners(void* context, void* dependencies) {
     turners->frame = 0;
     turners->frame_duration = TURNERS_MAX_FRAME_DURATION;
     turners->frames_since_rate_change = 0;
-    turners->x = window->width / (2 * RENDERER_SCALE) - TURNERS_WIDTH / 2;
-    turners->y = window->height / (2 * RENDERER_SCALE) - TURNERS_HEIGHT / 2 -
-                 TURNERS_CENTER_Y_OFFSET;
+    turners->x = window->width / (2.0f * RENDERER_SCALE) - TURNERS_WIDTH / 2.0f;
+    turners->y = window->height / (2.0f * RENDERER_SCALE) -
+                 TURNERS_HEIGHT / 2.0f - TURNERS_CENTER_Y_OFFSET;
 
     start_timer(&turners->frame_rate_change_timer, TIMER_EXPIRED);
 }
 
 void handle_turners_event(void* context, void* dependencies, Event event) {
+    UNUSED(dependencies);
     Turners* turners = (Turners*)context;
 
     switch (event.type) {
         case WINDOW_RESIZE_EVENT:
-            turners->x = event.window_resize.width / (2 * RENDERER_SCALE) -
-                         TURNERS_WIDTH / 2;
-            turners->y = event.window_resize.height / (2 * RENDERER_SCALE) -
-                         TURNERS_HEIGHT / 2 - TURNERS_CENTER_Y_OFFSET;
+            turners->x = event.window_resize.width / (2.0f * RENDERER_SCALE) -
+                         TURNERS_WIDTH / 2.0f;
+            turners->y = event.window_resize.height / (2.0f * RENDERER_SCALE) -
+                         TURNERS_HEIGHT / 2.0f - TURNERS_CENTER_Y_OFFSET;
             break;
         case PLAYER_JUMP_EVENT:
             if (turners->frame_duration > TURNERS_MIN_FRAME_DURATION) {
@@ -86,10 +87,10 @@ void handle_turners_event(void* context, void* dependencies, Event event) {
 }
 
 void update_turners(void* context, void* dependencies, float delta_time) {
+    UNUSED(delta_time);
     Turners* turners = (Turners*)context;
     EntityManager* entity_manager = get_entity_manager(dependencies);
     GameManager* game_manager = get_entity(entity_manager, GAME_MANAGER_ID);
-    Scoreboard* scoreboard = get_entity(entity_manager, SCOREBOARD_ID);
 
     if (!game_manager->running) {
         if (turners->frame != 0) {
@@ -136,6 +137,7 @@ void render_turners(void* context, void* dependencies) {
 }
 
 void cleanup_turners(void* context, void* dependencies) {
+    UNUSED(dependencies);
     Turners* turners = (Turners*)context;
 
     unload_texture(&turners->texture);
