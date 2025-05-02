@@ -48,7 +48,11 @@ void handle_game_manager_event(void* context, void* dependencies, Event event) {
 
     switch (event.type) {
         case KEY_PRESS_EVENT:
-            if (event.key_press.keycode == KEYCODE_SPACE) {
+        case MOUSE_BUTTON_PRESS_EVENT:
+            if (
+                (event.type == KEY_PRESS_EVENT && event.key_press.keycode == KEYCODE_SPACE) ||
+                (event.type == MOUSE_BUTTON_PRESS_EVENT && event.mouse_button_press.button == MOUSE_BUTTON_LEFT)
+            ) {
                 if (!game_manager->running &&
                     is_timer_expired(&game_manager->restart_timer)) {
                     handle_entities_event(

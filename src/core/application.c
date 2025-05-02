@@ -86,6 +86,10 @@ void application_dispatch_events(Application* application) {
                 event.type = KEY_PRESS_EVENT;
                 event.key_press.keycode = platform_event.key.keysym.sym;
                 break;
+            case SDL_MOUSEBUTTONDOWN:
+                event.type = MOUSE_BUTTON_PRESS_EVENT;
+                event.mouse_button_press.button = platform_event.button.button;
+                break;
             default:
                 break;
         }
