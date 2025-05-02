@@ -10,7 +10,7 @@
 #define PROMPT_FONT_SIZE 16
 #define PROMPT_COLOR ((Color){.r = 170, .g = 157, .b = 246})
 #define PROMPT_Z_INDEX 0
-#define PROMPT_TEXT "Press space to jump"
+#define PROMPT_TEXT "Tap to jump"
 #define PROMPT_CENTER_X_OFFSET -2
 #define PROMPT_CENTER_Y_OFFSET -28
 

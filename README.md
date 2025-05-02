@@ -9,14 +9,20 @@ Skippy is a simple browser-based game built using C, SDL2, and compiled to WebAs
 ## Requirements
 
 - **Emscripten**: [Emscripten](https://emscripten.org/docs/getting_started/downloads.html) is required to compile the game for the web.
-- **Python3**: [Python3](https://www.python.org/downloads/) is required by Emscripten for various tools.
 - **CMake**: [CMake](https://cmake.org/download/) is used for building the project.
-- ***SDL2***: The game uses [SDL2](https://wiki.libsdl.org/SDL2/Installation) for handling graphics and input. Emscripten will automatically handle this via its ports, and so `SDL2`, `SDL2_image`, `SDL2_mixer`, and `SDL2_ttf` are only required as separate installations if you intend to build natively instead of for web.
+- **_Python3_**: [Python3](https://www.python.org/downloads/) is required by Emscripten for various tools. If you install Emscripten via the SDK, or package managers such as Homebrew and Pacman, Python3 will be automatically installed as a dependency.
+- **_SDL2_**: The game uses [SDL2](https://wiki.libsdl.org/SDL2/Installation) for handling graphics and input. Emscripten will automatically handle this via its ports, and so `SDL2`, `SDL2_image`, `SDL2_mixer`, and `SDL2_ttf` are only required as separate installations if you intend to build natively instead of for the web.
 
 Install these requirements using your method of choice, e.g. on Arch Linux:
 
 ```sh
-sudo pacman -S cmake emscripten python
+sudo pacman -S cmake emscripten
+```
+
+Or on macOS:
+
+```sh
+brew cmake emscripten
 ```
 
 ## Build & Run
