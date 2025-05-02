@@ -31,7 +31,7 @@ void window_init(Window* window, const char* title) {
 
     void* platform_window = SDL_CreateWindow(
         title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height,
-        SDL_WINDOW_SHOWN
+        SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN
     );
     ASSERT(platform_window != NULL, "Failed to create SDL_Window");
 

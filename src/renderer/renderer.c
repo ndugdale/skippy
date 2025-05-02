@@ -10,8 +10,15 @@ void renderer_init(Renderer* renderer, Window* window) {
         window->platform_window, -1, SDL_RENDERER_ACCELERATED
     );
     ASSERT(platform_renderer != NULL, "Failed to create SDL_Renderer");
+ 
+    int renderer_width;
+    int renderer_height;
+    SDL_GetRendererOutputSize(platform_renderer, &renderer_width, &renderer_height);
+	
+    float width_scale = (float)renderer_width / (float) window->width;
+	float height_scale = (float)renderer_height / (float) window->height;
+	SDL_RenderSetScale(platform_renderer, width_scale * RENDERER_SCALE, height_scale * RENDERER_SCALE);
 
-    SDL_RenderSetScale(platform_renderer, RENDERER_SCALE, RENDERER_SCALE);
     renderer->platform_renderer = platform_renderer;
 }
 
