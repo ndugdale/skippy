@@ -18,6 +18,21 @@ project(${PROJECT_NAME} VERSION ${PROJECT_VERSION})
 
 add_executable(${PROJECT_NAME} ${SRC_FILES})
 
+# Add Emscripten-specific linker flags only to the final target
+if("${CMAKE_SYSTEM_NAME}" STREQUAL "Emscripten")
+    set(ASSET_FLAGS "--use-preload-plugins")
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        list(APPEND ASSET_FLAGS "--emrun")
+    endif()
+
+    if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/assets")
+        list(APPEND ASSET_FLAGS "--preload-file" "../assets")
+    endif()
+
+    target_link_options(${PROJECT_NAME} PRIVATE ${ASSET_FLAGS})
+endif()
+
 target_include_directories(${PROJECT_NAME}
     PUBLIC
     ${SOURCE_DIR}
