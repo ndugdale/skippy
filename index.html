@@ -9,6 +9,7 @@
 
   <body>
     <canvas id="canvas" tabindex="-1"></canvas>
+    <div id="loader"></div>
     <a
       id="github-link"
       href="https://github.com/ndugdale/skippy"
@@ -30,10 +31,17 @@
     </a>
     <script type="text/javascript">
       var Module = {
+        onRuntimeInitialized: () => {
+          document.getElementById("canvas").style.display = "block";
+          document.getElementById("loader").style.display = "none";
+        },
         canvas: (() => {
           var canvas = document.getElementById("canvas");
           return canvas;
         })(),
+        setStatus: (text) => {
+          console.debug(text);
+        },
       };
     </script>
     <script src="index.js"></script>

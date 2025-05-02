@@ -1,28 +1,82 @@
+:root {
+  --primary-color: rgb(170, 157, 246);
+  --secondary-color: rgb(163, 149, 252);
+  --background-color: rgb(195, 193, 240);
+}
+
 * {
   margin: 0;
   padding: 0;
 }
+
 html,
 body {
   width: 100%;
   height: 100%;
-  background-color: rgb(195, 193, 240);
+  background-color: var(--background-color);
 }
+
 canvas {
-  display: block;
+  display: none;
   width: 100%;
   height: 100%;
 }
+
+#loader {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5rem;
+  aspect-ratio: 2;
+  --loader-circle: no-repeat
+    radial-gradient(circle closest-side, var(--primary-color) 90%, #0000);
+  background:
+    var(--loader-circle) 0% 50%,
+    var(--loader-circle) 50% 50%,
+    var(--loader-circle) 100% 50%;
+  background-size: calc(100% / 3) 50%;
+  transition: display 0.2s ease;
+  animation: loader-animation 1s infinite linear;
+}
+@keyframes loader-animation {
+  20% {
+    background-position:
+      0% 0%,
+      50% 50%,
+      100% 50%;
+  }
+  40% {
+    background-position:
+      0% 100%,
+      50% 0%,
+      100% 50%;
+  }
+  60% {
+    background-position:
+      0% 50%,
+      50% 100%,
+      100% 0%;
+  }
+  80% {
+    background-position:
+      0% 50%,
+      50% 50%,
+      100% 100%;
+  }
+}
+
 #github-link {
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
   width: 6rem;
   height: 6rem;
-  color: rgb(170, 157, 246);
+  color: var(--primary-color);
   transition: color 0.2s ease;
   cursor: pointer;
 }
 #github-link:hover {
-  color: rgb(163, 149, 252);
+  color: var(--secondary-color);
 }
